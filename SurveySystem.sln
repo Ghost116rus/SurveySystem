@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.PosgreSQL", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F6F05200-1382-47A0-BEBC-0CC93491B7A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.Aplication", "src\Core\SurveySystem.Aplication\SurveySystem.Aplication.csproj", "{FB460A2F-B125-44D7-B33A-C4831003210A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Aplication", "src\Core\SurveySystem.Aplication\SurveySystem.Aplication.csproj", "{FB460A2F-B125-44D7-B33A-C4831003210A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.Domain", "src\Core\SurveySystem.Domain\SurveySystem.Domain.csproj", "{A2752998-C369-4F11-A991-5BA5838D6DF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Domain", "src\Core\SurveySystem.Domain\SurveySystem.Domain.csproj", "{A2752998-C369-4F11-A991-5BA5838D6DF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.Web", "src\Web\SurveySystem.Web\SurveySystem.Web.csproj", "{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Web", "src\Web\SurveySystem.Web\SurveySystem.Web.csproj", "{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.Services", "src\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj", "{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{FB460A2F-B125-44D7-B33A-C4831003210A} = {F6F05200-1382-47A0-BEBC-0CC93491B7A7}
 		{A2752998-C369-4F11-A991-5BA5838D6DF1} = {F6F05200-1382-47A0-BEBC-0CC93491B7A7}
 		{E42F993B-C1FB-41F8-9FE3-749AD8FFC516} = {3A62DFC4-5547-40BD-AC34-E8418341F5A9}
+		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591} = {777D66FE-3458-4564-9673-53CA8952DD32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DEB9DA27-ADB7-4807-9CEC-E646D4B63FA8}
