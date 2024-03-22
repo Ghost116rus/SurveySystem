@@ -15,9 +15,15 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         public const string SurveyField = nameof(_survey);
 
+        /// <summary>
+        /// Поле для <see cref="_studentAnswers"/>
+        /// </summary>
+        public const string StudentAnswersField = nameof(_studentAnswers);
+
         private int _currentPostion;
         private Student? _student;
         private Survey? _survey;
+        private List<StudentAnswer> _studentAnswers = new();
 
         public StudentSurveyProgress(Student student, Survey survey)
         {
@@ -67,6 +73,16 @@ namespace SurveySystem.Domain.Entities.Users
             }
         }
 
+        /// <summary>
+        /// Ответы студента
+        /// </summary>
+        public IReadOnlyList<StudentAnswer>? Answers => _studentAnswers;        
+        
+        /// <summary>
+        /// Актуальные ответы студента
+        /// </summary>
+        public IReadOnlyList<StudentAnswer>? ActualAnswers => _studentAnswers.Where(x => x.IsActual).ToList();
+
         #endregion
 
         /// <summary>
@@ -74,8 +90,7 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         /// <param name="questionsCount">Количество вопросов в анкете</param>
         public void UpdateIsCompletedStatus(int questionsCount)
-            => IsCompleted = _currentPostion == questionsCount;
-        
+            => IsCompleted = _currentPostion == questionsCount;        
     }
 }
 

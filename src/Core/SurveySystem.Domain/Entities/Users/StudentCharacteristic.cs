@@ -47,6 +47,7 @@ namespace SurveySystem.Domain.Entities.Users
                     _value = value;
             }
         }
+
         #region NavigfationProperties
 
         public Student? Student

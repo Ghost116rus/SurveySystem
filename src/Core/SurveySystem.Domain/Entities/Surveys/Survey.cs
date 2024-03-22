@@ -5,7 +5,7 @@ using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Surveys
 {
-    public class Survey : HasTagsEntity
+    public class Survey : EntityWTags
     {
         /// <summary>
         /// Поле для <see cref="_courseProjects"/>
@@ -27,13 +27,14 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public const string QuestionsField = nameof(_questions);
 
+        private DateTime? _startDate;
         private List<int> _semesters = new List<int>();
         private List<Institute> _institutes = new List<Institute>();
         private List<Faculty> _faculties = new List<Faculty>();
         private List<SurveyTestQuestion> _questions = new List<SurveyTestQuestion>();
 
 
-        public Survey(string name, DateTime startDate, bool isRepetable, bool isVisible,
+        public Survey(string name, DateTime? startDate, bool isRepetable, bool isVisible,
             List<Institute> institutes, List<Faculty> faculties, List<int> semesters, List<Tag> tags, List<SurveyTestQuestion> surveyTestQuestions) : base(tags)
         {
             Name = name;
@@ -48,7 +49,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         }
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор для EF
         /// </summary>
         protected Survey()
         {
@@ -60,9 +61,16 @@ namespace SurveySystem.Domain.Entities.Surveys
         public string Name { get; private set; }
 
         /// <summary>
-        /// Определяет дату начала опроса - в случае null - не используется
+        /// Определяет время начала опроса - в случае null - не используется
         /// </summary>
-        public DateTime? StartDate { get; private set; }
+        public DateTime? StartDate 
+        {
+            get => _startDate;
+            private set
+            {
+                _startDate = value?.ToUniversalTime();
+            }
+        }
 
         /// <summary>
         /// Определяет возможность пройти опрос заново
@@ -118,7 +126,7 @@ namespace SurveySystem.Domain.Entities.Surveys
             foreach (var value in semesters)
             {
                 if (value <= 0)
-                    throw new ExceptionBase($"Семестр не может быть меньше или равно нулю");
+                    throw new ExceptionBase($"Семестр не может быть меньше или равен нулю");
                 else if (value > DomainConstants.SemesterConstant)
                     throw new ExceptionBase($"Семестр не может быть больше заданного в программе числа ({DomainConstants.SemesterConstant})");
                 _semesters.Add(value);

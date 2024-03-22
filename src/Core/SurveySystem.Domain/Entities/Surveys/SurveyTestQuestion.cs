@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SurveySystem.Domain.Entities.Base;
-using SurveySystem.Domain.Entities.Users;
-using SurveySystem.Domain.Exceptions;
+﻿using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Surveys
 {
@@ -25,11 +18,11 @@ namespace SurveySystem.Domain.Entities.Surveys
         private Survey? _survey;
         private Question? _question;
 
-        public SurveyTestQuestion(Survey survey, Question question)
-        {
-            Position = 0;
+        public SurveyTestQuestion(int postion, Survey survey, Question question)
+        {            
             Survey = survey;
             Question = question;
+            Position = postion;
         }
 
         protected SurveyTestQuestion() { }

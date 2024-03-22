@@ -1,13 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Surveys;
 
 namespace SurveySystem.Domain.Entities.Users
 {
-    public class StudentAnswer
+    public class StudentAnswer : BaseEntity
     {
+        /// <summary>
+        /// Поле для <see cref="_characteristic"/>
+        /// </summary>
+        public const string SurveyField = nameof(_surveyProgress);        
+        
+        /// <summary>
+        /// Поле для <see cref="_characteristic"/>
+        /// </summary>
+        public const string AnswerField = nameof(_answer);
 
+        private StudentSurveyProgress? _surveyProgress;
+        private Answer? _answer;
+
+        public StudentAnswer(StudentSurveyProgress survey, Answer answer)
+        {
+            SurveyProgress = survey;
+            Answer = answer;
+            IsActual = true;
+        }
+
+        protected StudentAnswer() { }
+
+        public Guid SurveyId { get; private set; }
+        public Guid AnswerId { get; private set; }
+
+        /// <summary>
+        /// Проверяет, актуален ли ответ при составлении цифрового профиля
+        /// </summary>
+        public bool IsActual { get; set; }
+
+        #region NavigfationProperties
+
+        public StudentSurveyProgress? SurveyProgress
+        {
+            get => _surveyProgress;
+            private set
+            {
+                ArgumentNullException.ThrowIfNull(value);
+                _surveyProgress = value;
+                SurveyId = value.Id;
+            }
+        }
+
+        public Answer? Answer
+        {
+            get => _answer;
+            private set
+            {
+                ArgumentNullException.ThrowIfNull(value);
+                _answer = value;
+                AnswerId = value.Id;
+            }
+        }
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Organization
 {
@@ -71,19 +72,5 @@ namespace SurveySystem.Domain.Entities.Organization
 
         #endregion
 
-        /// <summary>
-        /// Получить количество портфолио Института
-        /// </summary>
-        /// <returns>Число портфолио</returns>
-        /// <exception cref="NotIncludedException"></exception>
-        public int GetCountPortfolios()
-        {
-            if (_faculties == null)
-                throw new NotIncludedException("Факультеты");
-
-            return _faculties
-                .Select(x => x.GetCountPortfolios())
-                .Sum();
-        }
     }
 }
