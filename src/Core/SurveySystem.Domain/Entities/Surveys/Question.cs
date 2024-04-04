@@ -8,22 +8,24 @@ namespace SurveySystem.Domain.Entities.Surveys
     public class Question : EntityWTags
     {
         /// <summary>
-        /// Поле для <see cref="_courseProjects"/>
+        /// Поле для <see cref="_answers"/>
         /// </summary>
-        public const string SemestersField = nameof(_answers);
+        public const string AnswersField = nameof(_answers);
 
         /// <summary>
-        /// Поле для <see cref="_users"/>
+        /// Поле для <see cref="_criteries"/>
         /// </summary>
-        public const string InstitutesField = nameof(_criteries);
+        public const string CriteriesField = nameof(_criteries);
 
-        private List<Answer> _answers = new();
-        private List<QuestionEvaluationCriteria> _criteries = new();
+        private List<Answer> _answers;
+        private List<QuestionEvaluationCriteria> _criteries;
 
         public Question(QuestionType questionType, string text) 
         {
             Type = questionType;
             UpdateQuestionText(text);
+            _answers = new();
+            _criteries = new();
         }
 
         protected Question() { }
@@ -43,14 +45,14 @@ namespace SurveySystem.Domain.Entities.Surveys
         #region Navigation properties
 
         /// <summary>
-        /// Список критериев оценки, в случае открытого ответа 
-        /// </summary>
-        public IReadOnlyList<QuestionEvaluationCriteria>? Criteries => _criteries;
-
-        /// <summary>
         /// Список ответов на данный вопрос
         /// </summary>
         public IReadOnlyList<Answer>? Answers => _answers;
+
+        /// <summary>
+        /// Список критериев оценки, в случае открытого ответа 
+        /// </summary>
+        public IReadOnlyList<QuestionEvaluationCriteria>? Criteries => _criteries;
 
         #endregion
 

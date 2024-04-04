@@ -1,4 +1,5 @@
 ﻿using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
 using SurveySystem.Domain.Extensions;
@@ -12,10 +13,23 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         public const string StudentField = nameof(_student);
 
+        /// <summary>
+        /// Поле для <see cref="_createdSurveys"/>
+        /// </summary>
+        public const string CreatedSurveysField = nameof(_createdSurveys);
+
+        /// <summary>
+        /// Поле для <see cref="_modifiedSurveys"/>
+        /// </summary>
+        public const string ModifiedSurveysField = nameof(_modifiedSurveys);
+
         private string _login;
         private string _passwordHash;
         private Student? _student;
         private string _fullName;
+
+        private List<Survey>? _createdSurveys = new();
+        private List<Survey>? _modifiedSurveys = new();
 
         /// <summary>
         /// Конструткор
@@ -98,6 +112,17 @@ namespace SurveySystem.Domain.Entities.Users
                 _student = value;
             }
         }
+
+
+        /// <summary>
+        /// Созданные опросы
+        /// </summary>
+        public IReadOnlyList<Survey>? CreatedSurveys => _createdSurveys;
+
+        /// <summary>
+        /// Измененные опросы
+        /// </summary>
+        public IReadOnlyList<Survey>? ModifiedSurveys => _modifiedSurveys;
 
         #endregion
 

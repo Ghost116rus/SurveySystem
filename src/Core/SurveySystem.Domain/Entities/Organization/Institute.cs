@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Organization
@@ -15,9 +16,15 @@ namespace SurveySystem.Domain.Entities.Organization
         /// </summary>
         public const string FacultiesField = nameof(_faculties);
 
+        /// <summary>
+        /// Поле для <see cref="_surveys"/>
+        /// </summary>
+        public const string SurveysField = nameof(_surveys);
+
         private string _fullName;
         private string _shortName;
         private List<Faculty>? _faculties;
+        private List<Survey>? _surveys;
 
         /// <summary>
         /// Конструктор
@@ -32,6 +39,7 @@ namespace SurveySystem.Domain.Entities.Organization
             ShortName = shortName;
 
             _faculties = new List<Faculty>();
+            _surveys = new List<Survey>();
         }
 
         /// <summary>
@@ -69,6 +77,7 @@ namespace SurveySystem.Domain.Entities.Organization
         /// Кафедры
         /// </summary>
         public IReadOnlyList<Faculty>? Faculties => _faculties;
+        public IReadOnlyList<Survey>? Surveys => _surveys;
 
         #endregion
 

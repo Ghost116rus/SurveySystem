@@ -7,7 +7,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// <summary>
         /// Поле для <see cref="_survey"/>
         /// </summary>
-        public const string StudentField = nameof(_survey);
+        public const string SurveyField = nameof(_survey);
 
         /// <summary>
         /// Поле для <see cref="_question"/>

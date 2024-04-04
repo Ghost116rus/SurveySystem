@@ -1,4 +1,6 @@
 ﻿using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Surveys;
+using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Organization
@@ -10,10 +12,23 @@ namespace SurveySystem.Domain.Entities.Organization
         /// </summary>
         public const string InstituteField = nameof(_institute);
 
+        /// <summary>
+        /// Поле для <see cref="_students"/>
+        /// </summary>
+        public const string StudentsField = nameof(_students);
+
+        /// <summary>
+        /// Поле для <see cref="_surveys"/>
+        /// </summary>
+        public const string SurveysField = nameof(_surveys);
+
         private string _fullName;
         private string _shortName;
 
         private Institute _institute;
+
+        private List<Student> _students; 
+        private List<Survey>? _surveys;
 
         /// <summary>
         /// Конструктор
@@ -28,6 +43,7 @@ namespace SurveySystem.Domain.Entities.Organization
             FullName = fullName;
             ShortName = shortName;
             Institute = institute;
+            _surveys = new List<Survey>();
         }
 
         /// <summary>
@@ -80,6 +96,11 @@ namespace SurveySystem.Domain.Entities.Organization
             }
         }
 
+        /// <summary>
+        /// Студенты, учащиеся на кафедре
+        /// </summary>
+        public IReadOnlyList<Student>? Students => _students;
+        public IReadOnlyList<Survey>? Surveys => _surveys;
         #endregion
 
     }

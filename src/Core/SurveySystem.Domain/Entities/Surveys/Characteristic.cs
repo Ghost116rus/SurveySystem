@@ -1,6 +1,7 @@
 ﻿using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
+using System.Reflection.PortableExecutable;
 
 namespace SurveySystem.Domain.Entities.Surveys
 {

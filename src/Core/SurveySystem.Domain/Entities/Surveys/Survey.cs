@@ -1,11 +1,13 @@
 ﻿using SurveySystem.Domain.Constants;
 using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Entities.Organization;
+using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Exceptions;
+using SurveySystem.Domain.Interfaces;
 
 namespace SurveySystem.Domain.Entities.Surveys
 {
-    public class Survey : EntityWTags
+    public class Survey : EntityWTags, IUserTrackable
     {
         /// <summary>
         /// Поле для <see cref="_courseProjects"/>
@@ -27,15 +29,28 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public const string QuestionsField = nameof(_questions);
 
+        /// <summary>
+        /// Поле для <see cref="_createdByUser"/>
+        /// </summary>
+        public const string CreatedByUserField = nameof(_createdByUser);
+
+        /// <summary>
+        /// Поле для <see cref="_modifiedByUser"/>
+        /// </summary>
+        public const string ModifiedByUserField = nameof(_modifiedByUser);
+
+        private User? _createdByUser;
+        private User? _modifiedByUser;
+
         private DateTime? _startDate;
-        private List<int> _semesters = new List<int>();
+        private List<Semester> _semesters = new List<Semester>();
         private List<Institute> _institutes = new List<Institute>();
         private List<Faculty> _faculties = new List<Faculty>();
         private List<SurveyTestQuestion> _questions = new List<SurveyTestQuestion>();
 
 
         public Survey(string name, DateTime? startDate, bool isRepetable, bool isVisible,
-            List<Institute> institutes, List<Faculty> faculties, List<int> semesters, List<Tag> tags, List<SurveyTestQuestion> surveyTestQuestions) : base(tags)
+            List<Institute> institutes, List<Faculty> faculties, List<Semester> semesters, List<Tag> tags, List<SurveyTestQuestion> surveyTestQuestions) : base(tags)
         {
             Name = name;
             IsRepetable = isRepetable;
@@ -82,7 +97,15 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public bool IsVisible { get; private set; }
 
+        /// <summary>
+        /// Идентификатор пользователя, создавшего сущность
+        /// </summary>
+        public Guid CreatedByUserId { get; set; }
 
+        /// <summary>
+        /// Идентификатор пользователя, изменившего сущность
+        /// </summary>
+        public Guid ModifiedByUserId { get; set; }
 
         #region Navigation properties
 
@@ -90,7 +113,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// Список назначенных институтов для назначения опроса - в случае, 
         /// если заданный список пустой, назначается всем студентам, что подходят под ограничение семестра, уровня образования и даты
         /// </summary>
-        public IReadOnlyList<int>? Semester => _semesters;
+        public IReadOnlyList<Semester>? Semesters => _semesters;
 
         /// <summary>
         /// Список назначенных институтов для назначения опроса - в случае, 
@@ -111,6 +134,34 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public IReadOnlyList<SurveyTestQuestion>? Questions => _questions;
 
+        /// <summary>
+        /// Пользователь, создавший сущность
+        /// </summary>
+        public User? CreatedByUser
+        {
+            get => _createdByUser;
+            set
+            {
+                _createdByUser = value
+                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, создавший сущность");
+                CreatedByUserId = value.Id;
+            }
+        }
+
+        /// <summary>
+        /// Пользователь, изменивший сущность
+        /// </summary>
+        public User? ModifiedByUser
+        {
+            get => _modifiedByUser;
+            set
+            {
+                _modifiedByUser = value
+                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, изменивший сущность");
+                ModifiedByUserId = value.Id;
+            }
+        }
+
         #endregion
 
         private void SetFaculties(List<Faculty> faculties)
@@ -121,17 +172,8 @@ namespace SurveySystem.Domain.Entities.Surveys
             _faculties = faculties;
         }
 
-        private void SetSemesters(List<int> semesters)
-        {
-            foreach (var value in semesters)
-            {
-                if (value <= 0)
-                    throw new ExceptionBase($"Семестр не может быть меньше или равен нулю");
-                else if (value > DomainConstants.SemesterConstant)
-                    throw new ExceptionBase($"Семестр не может быть больше заданного в программе числа ({DomainConstants.SemesterConstant})");
-                _semesters.Add(value);
-            }
-        }
+        private void SetSemesters(List<Semester> semesters) => _semesters = semesters;
+        
 
         public void UpdateSurveyQuestions(List<SurveyTestQuestion> surveyTestQuestions)
         {

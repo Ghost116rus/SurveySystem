@@ -26,7 +26,7 @@ namespace SurveySystem.Domain.Entities.Users
         public const string SrudentCharacteristicsField = nameof(_characteristics);
 
         /// <summary>
-        /// Поле для <see cref="_photos"/>
+        /// Поле для <see cref="_surveysProgress"/>
         /// </summary>
         public const string ProgressField = nameof(_surveysProgress);
 
@@ -129,7 +129,7 @@ namespace SurveySystem.Domain.Entities.Users
             private set
             {
                 _faculty = value
-                    ?? throw new RequiredFieldNotSpecifiedException("Институт");
+                    ?? throw new RequiredFieldNotSpecifiedException("Кафедра");
                 FacultyId = value.Id;
             }
         }

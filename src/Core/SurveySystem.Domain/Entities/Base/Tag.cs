@@ -1,4 +1,5 @@
-﻿using SurveySystem.Domain.Enums;
+﻿using SurveySystem.Domain.Entities.Surveys;
+using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Base
@@ -22,5 +23,14 @@ namespace SurveySystem.Domain.Entities.Base
         public string Description { get; private set; } = "";
 
         public TagType Type { get; private set; }
+
+
+        #region NavigfationProperties
+
+        public List<Survey> Surveys { get; set; } = new();
+
+        public List<Question> Questions { get; set; } = new();
+
+        #endregion
     }
 }

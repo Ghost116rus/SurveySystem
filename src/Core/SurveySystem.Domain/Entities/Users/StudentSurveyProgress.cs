@@ -1,9 +1,10 @@
-﻿using SurveySystem.Domain.Entities.Surveys;
+﻿using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Domain.Entities.Users
 {
-    public class StudentSurveyProgress
+    public class StudentSurveyProgress : BaseEntity
     {
         /// <summary>
         /// Поле для <see cref="_student"/>

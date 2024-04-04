@@ -8,7 +8,7 @@ namespace SurveySystem.Domain.Entities.Users
         /// <summary>
         /// Поле для <see cref="_characteristic"/>
         /// </summary>
-        public const string SurveyField = nameof(_surveyProgress);        
+        public const string SurveyProgressField = nameof(_surveyProgress);        
         
         /// <summary>
         /// Поле для <see cref="_characteristic"/>
@@ -27,7 +27,7 @@ namespace SurveySystem.Domain.Entities.Users
 
         protected StudentAnswer() { }
 
-        public Guid SurveyId { get; private set; }
+        public Guid SurveyProgressId { get; private set; }
         public Guid AnswerId { get; private set; }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace SurveySystem.Domain.Entities.Users
             {
                 ArgumentNullException.ThrowIfNull(value);
                 _surveyProgress = value;
-                SurveyId = value.Id;
+                SurveyProgressId = value.Id;
             }
         }
 

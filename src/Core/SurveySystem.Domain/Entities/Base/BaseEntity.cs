@@ -29,6 +29,11 @@ namespace SurveySystem.Domain.Entities.Base
         public DateTime ModifiedOn { get; set; }
 
         /// <summary>
+        /// Новая сущность
+        /// </summary>
+        public bool IsNew => Id == default;
+
+        /// <summary>
         /// Добавить доменное событие
         /// </summary>
         /// <param name="domainEvent">событие</param>

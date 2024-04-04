@@ -11,6 +11,16 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public const string QuestionField = nameof(_question);
 
+        /// <summary>
+        /// Поле для <see cref="_answersCharaterisics"/>
+        /// </summary>
+        public const string AnswerCharacteristicField = nameof(_answersCharaterisics);
+
+        /// <summary>
+        /// Поле для <see cref="_studentAnswers"/>
+        /// </summary>
+        public const string StudentAnswersField = nameof(_studentAnswers);
+
         private Question? _question;
         private List<AnswerCharacteristicValue> _answersCharaterisics = new();
         private List<StudentAnswer> _studentAnswers = new();

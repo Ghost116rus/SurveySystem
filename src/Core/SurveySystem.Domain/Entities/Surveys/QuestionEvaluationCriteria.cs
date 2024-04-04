@@ -30,7 +30,7 @@ namespace SurveySystem.Domain.Entities.Surveys
 
         #region NavigfationProperties
 
-        public IReadOnlyCollection<Question> questions { get => _questions; }
+        public IReadOnlyCollection<Question> Questions { get => _questions; }
 
         #endregion
 
