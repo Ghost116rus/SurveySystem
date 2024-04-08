@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SurveySystem.Aplication.Interfaces;
 
-namespace SurveySystem.PosgreSQL
+namespace SurveySystem.PosgreSQL.Services
 {
     /// <summary>
     /// Мигратор

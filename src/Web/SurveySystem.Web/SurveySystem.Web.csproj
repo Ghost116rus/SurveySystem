@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Core\SurveySystem.Aplication\SurveySystem.Aplication.csproj" />
     <ProjectReference Include="..\..\Core\SurveySystem.Domain\SurveySystem.Domain.csproj" />
     <ProjectReference Include="..\..\Infrasrtucture\SurveySystem.PosgreSQL\SurveySystem.PosgreSQL.csproj" />
+    <ProjectReference Include="..\..\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj" />
   </ItemGroup>
 
 </Project>

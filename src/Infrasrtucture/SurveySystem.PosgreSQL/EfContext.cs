@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Npgsql;
 using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Entities.Base;
+using SurveySystem.Domain.Entities.Organization;
 using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Exceptions;
@@ -60,6 +61,15 @@ namespace SurveySystem.PosgreSQL
         public DbSet<SurveyTestQuestion> SurveysTestQuestions { get; set; }
 
         #endregion
+
+        #region OrganizationEntities
+
+        public DbSet<Institute> Institutes { get; }
+        public DbSet<Faculty> Faculties { get; }
+        public DbSet<Semester> Semesters { get; }
+
+        #endregion
+
         /// <inheritdoc/>
         public bool IsInMemory => Database.IsInMemory();
 

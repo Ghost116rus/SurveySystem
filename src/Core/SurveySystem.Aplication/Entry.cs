@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using SurveySystem.Aplication.Interfaces;
-using SurveySystem.Aplication.Services;
 using SurveySystem.Domain.Entities.Base;
 
 namespace SurveySystem.Aplication
@@ -20,9 +18,6 @@ namespace SurveySystem.Aplication
         {
             services.AddMediatR(typeof(Entry));
             services.AddMediatR(typeof(BaseEntity));
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IDbSeeder, DbSeeder>();
-
 
             return services;
         }

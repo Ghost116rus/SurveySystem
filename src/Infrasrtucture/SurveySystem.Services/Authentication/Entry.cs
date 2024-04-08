@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Enums;
 
-namespace SurveySystem.Web.Authentication
+namespace SurveySystem.Services.Authentication
 {
     /// <summary>
     /// Точка входа сервисов аутентификации для приложения

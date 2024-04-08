@@ -1,8 +1,9 @@
-﻿using SurveySystem.Aplication.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Enums;
 using System.Security.Claims;
 
-namespace SurveySystem.Web.Authentication
+namespace SurveySystem.Services.Authentication
 {
     /// <summary>
     /// Контекст текущего пользователя

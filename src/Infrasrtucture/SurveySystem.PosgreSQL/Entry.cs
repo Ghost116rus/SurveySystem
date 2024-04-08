@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SurveySystem.Aplication.Interfaces;
+using SurveySystem.PosgreSQL.Services;
 
 namespace SurveySystem.PosgreSQL
 {
@@ -47,6 +48,7 @@ namespace SurveySystem.PosgreSQL
                 opt.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             });
 
+            services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddTransient<DbMigrator>();
             services.AddScoped<IDbContext>(x => x.GetRequiredService<EfContext>());
 

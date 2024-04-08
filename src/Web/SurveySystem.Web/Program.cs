@@ -1,7 +1,8 @@
 using SurveySystem.Web.Swagger;
 using SurveySystem.Aplication;
+using SurveySystem.Services;
 using SurveySystem.PosgreSQL;
-using SurveySystem.Web.Authentication;
+using SurveySystem.PosgreSQL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,15 @@ var configuration = builder.Configuration;
 services
     .AddSwagger()
     .AddHttpContextAccessor()
-    .AddUserContext()
+    .AddServices()
     .AddCore()
-    .AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"));
+    .AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
+    .AddCors(options => options.AddPolicy(
+        "AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials()));
 
 
 
@@ -24,11 +31,9 @@ var app = builder.Build();
 {
     using (var scope = app.Services.CreateScope())
     {
-        //var migrator = scope.ServiceProvider.GetRequiredService<DbMigrator>();
-        //var s3Helper = scope.ServiceProvider.GetRequiredService<S3Helper>();
+        var migrator = scope.ServiceProvider.GetRequiredService<DbMigrator>();
 
-        //await migrator.MigrateAsync();
-        //await s3Helper.PrepareAsync();
+        await migrator.MigrateAsync();
     }
 
     if (app.Environment.IsDevelopment())

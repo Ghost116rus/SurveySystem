@@ -1,16 +1,10 @@
-﻿using SurveySystem.Aplication.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Entities.Organization;
-using SurveySystem.Domain.Entities.Users;
-using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SurveySystem.Aplication.Services
+namespace SurveySystem.PosgreSQL.Services
 {
     /// <summary>
     /// Сервис добавления данных в БД
@@ -38,63 +32,21 @@ namespace SurveySystem.Aplication.Services
             //await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private static async Task SeedRolesPrivilegesAsync(IDbContext dbContext, CancellationToken cancellationToken)
-        {
-            //var existRolesInDB = await dbContext.Roles
-            //    .Include(x => x.Privileges)
-            //    .Where(x => DefaultRoles.RolesIdsToPrivileges.Keys.Contains(x.Id))
-            //    .ToListAsync(cancellationToken);
-
-            //existRolesInDB.ForEach(x =>
-            //{
-            //    if (!DefaultRoles.RolesIdsToPrivileges.TryGetValue(x.Id, out var privileges))
-            //        throw new ApplicationExceptionBase($"Не удалось получить список привилегий для роли {x.Id}");
-
-            //    var currentPrivileges = x.Privileges!.Select(y => y.Privilege).ToList();
-            //    currentPrivileges.AddRange(privileges);
-            //    currentPrivileges = currentPrivileges.Distinct().ToList();
-
-            //    x.UpdatePrivileges(currentPrivileges);
-            //});
-        }
-
-        private async Task SeedRolesAsync(IDbContext dbContext, CancellationToken cancellationToken)
-        {
-            //var existRolesIdsInDB = await dbContext.Roles
-            //    .Where(x => _roles.Keys.Contains(x.Id))
-            //    .Select(x => x.Id)
-            //    .ToListAsync(cancellationToken);
-
-            //var rolesToSeed = _roles
-            //    .Where(x => !existRolesIdsInDB.Contains(x.Key))
-            //    .Select(x => new Role(x.Value) { Id = x.Key })
-            //    .ToList();
-
-            //rolesToSeed.ForEach(x =>
-            //{
-            //    if (!DefaultRoles.RolesIdsToPrivileges.TryGetValue(x.Id, out var privileges))
-            //        throw new ApplicationExceptionBase($"Не удалось получить список привилегий для роли {x.Id}");
-
-            //    x.UpdatePrivileges(privileges);
-            //});
-
-            //await dbContext.Roles.AddRangeAsync(rolesToSeed, cancellationToken);
-        }
 
         private async Task SeedInstitutesAndFacultiesAsync(IDbContext dbContext, CancellationToken cancellationToken)
         {
-            //var isExist = await dbContext.Institutes.AnyAsync(cancellationToken);
+            var isExist = await dbContext.Institutes.AnyAsync(cancellationToken);
 
-            //if (!isExist)
-            //{
-            //    var instituteIKTZI = new Institute("Институт компьютерных технологий и защиты информации", "ИКТЗИ");
+            if (!isExist)
+            {
+                var instituteIKTZI = new Institute("Институт компьютерных технологий и защиты информации", "ИКТЗИ");
 
-            //    var facultyPMI = new Faculty("Кафедра прикладной математики и информатики", "ПМИ", instituteIKTZI);
-            //    var facultySIB = new Faculty("Кафедра систем информационной безопасности", "СИБ", instituteIKTZI);
+                var facultyPMI = new Faculty("Кафедра прикладной математики и информатики", "ПМИ", instituteIKTZI);
+                var facultySIB = new Faculty("Кафедра систем информационной безопасности", "СИБ", instituteIKTZI);
 
-            //    await dbContext.Institutes.AddRangeAsync(instituteIKTZI);
-            //    await dbContext.Faculties.AddRangeAsync(facultyPMI, facultySIB);
-            //}
+                await dbContext.Institutes.AddRangeAsync(instituteIKTZI);
+                await dbContext.Faculties.AddRangeAsync(facultyPMI, facultySIB);
+            }
         }
 
         private async Task SeedTestUsersAsync(IDbContext dbContext, CancellationToken cancellationToken)
