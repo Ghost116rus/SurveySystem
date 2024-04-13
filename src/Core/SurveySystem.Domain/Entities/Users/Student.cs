@@ -137,12 +137,12 @@ namespace SurveySystem.Domain.Entities.Users
         /// <summary>
         /// Качества студента
         /// </summary>
-        public IReadOnlyList<StudentCharacteristic>? StudentCharacteristics => _characteristics;
+        public IReadOnlyList<StudentCharacteristic> StudentCharacteristics => _characteristics;
 
         /// <summary>
         /// Прогресс студента в прохождении тестов
         /// </summary>
-        public IReadOnlyList<StudentSurveyProgress>? Progresses => _surveysProgress;
+        public IReadOnlyList<StudentSurveyProgress> Progresses => _surveysProgress;
 
 
         #endregion
@@ -170,5 +170,8 @@ namespace SurveySystem.Domain.Entities.Users
             if (faculty != null && FacultyId != faculty.Id)
                 Faculty = faculty;
         }
+
+
+
     }
 }

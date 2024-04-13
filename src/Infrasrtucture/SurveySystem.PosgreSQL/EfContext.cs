@@ -64,9 +64,9 @@ namespace SurveySystem.PosgreSQL
 
         #region OrganizationEntities
 
-        public DbSet<Institute> Institutes { get; }
-        public DbSet<Faculty> Faculties { get; }
-        public DbSet<Semester> Semesters { get; }
+        public DbSet<Institute> Institutes { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
 
         #endregion
 

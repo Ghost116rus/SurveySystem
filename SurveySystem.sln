@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{AC83ABAD-57FF-4EAE-A454-02ECBF1DD86E}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-dev.yml = docker-compose-dev.yml
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{62B8910C-BD0C-4100-A4EC-3BBBDE9E0274}"
 EndProject
@@ -27,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Domain", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Web", "src\Web\SurveySystem.Web\SurveySystem.Web.csproj", "{E42F993B-C1FB-41F8-9FE3-749AD8FFC516}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.Services", "src\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj", "{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Services", "src\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj", "{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
