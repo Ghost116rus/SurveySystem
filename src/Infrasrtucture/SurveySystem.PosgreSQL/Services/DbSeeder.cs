@@ -30,14 +30,14 @@ namespace SurveySystem.PosgreSQL.Services
             _dbContext = dbContext;          
             ArgumentNullException.ThrowIfNull(_dbContext);
 
-            //await SeedSemesters(cancellationToken);
-            //await SeedInstitutesAndFacultiesAsync(cancellationToken);
-            //await SeedCharacteristics(cancellationToken);
-            //await SeedBasicUsersAsync(cancellationToken);
+            await SeedSemesters(cancellationToken);
+            await SeedInstitutesAndFacultiesAsync(cancellationToken);
+            await SeedCharacteristics(cancellationToken);
+            await SeedBasicUsersAsync(cancellationToken);
 
-            //await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
-            //await SeedTestStudentCharacteristcs(cancellationToken);
+            await SeedTestStudentCharacteristcs(cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -92,9 +92,10 @@ namespace SurveySystem.PosgreSQL.Services
         private async Task SeedTestStudentCharacteristcs(CancellationToken cancellationToken)
         {
             var student = await _dbContext.Students.Include(s => s.User)
+                .Include(s => s.StudentCharacteristics)
                 .FirstOrDefaultAsync(x => x.User != null && x.User.Login == "student");
 
-            if (student == null) 
+            if (student == null || student.StudentCharacteristics.Count != 0) 
                 return;
 
             var characteristics = await _dbContext.Characteristics.Where(x => 

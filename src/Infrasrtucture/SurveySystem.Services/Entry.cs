@@ -21,7 +21,6 @@ namespace SurveySystem.Services
                 .AddUserContext()
                 .AddCustomHeaderAuthentication(services)
                 .AddSingleton<IDateTimeProvider, DateTimeProvider>()
-                .AddScoped<IPasswordEncryptionService, PasswordEncryptionService>()
                 .AddScoped<ITokenAuthenticationService, TokenAuthenticationService>()
                 .AddScoped<IClaimsIdentityFactory, ClaimsIdentityFactory>();
         }

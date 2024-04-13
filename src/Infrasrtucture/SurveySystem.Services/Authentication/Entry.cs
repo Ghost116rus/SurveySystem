@@ -43,6 +43,7 @@ namespace SurveySystem.Services.Authentication
                     options.TokenValidationParameters = tokenService.GetTokenValidationParameters(TokenTypes.Auth);
                     options.Configuration = new OpenIdConnectConfiguration();
                 })
-                .Services;
+                .Services
+                .AddScoped<IPasswordEncryptionService, PasswordEncryptionService>();
     }
 }

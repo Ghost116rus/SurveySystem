@@ -11,10 +11,10 @@ namespace SurveySystem.Web.Controllers
     public class StudentController : BaseController
     {
         [HttpGet]
-        public async Task<GetStudentCharacteristicResponse> GetStudentCharacteristicAsync(
+        public async Task<GetPositiveStudentCharacteristicResponse> GetStudentCharacteristicAsync(
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
             => await mediator.Send(
-                new GetStudentCharacteristicQuery(), cancellationToken);
+                new GetPositiveStudentCharacteristicQuery(), cancellationToken);
     }
 }

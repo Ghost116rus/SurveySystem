@@ -8,18 +8,18 @@ using SurveySystem.Requests.Students.StudentCharacteristic;
 
 namespace SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic
 {
-    public class GetStudentCharacteristicQueryHandler : IRequestHandler<GetStudentCharacteristicQuery, GetStudentCharacteristicResponse>
+    public class GetPositiveStudentCharacteristicQueryHandler : IRequestHandler<GetPositiveStudentCharacteristicQuery, GetPositiveStudentCharacteristicResponse>
     {
         private readonly IDbContext _dbContext;
         private readonly IUserContext _userContext;
 
-        public GetStudentCharacteristicQueryHandler(IDbContext dbContext, IUserContext userContext)
+        public GetPositiveStudentCharacteristicQueryHandler(IDbContext dbContext, IUserContext userContext)
         {
             _dbContext = dbContext;
             _userContext = userContext;
         }
 
-        public async Task<GetStudentCharacteristicResponse> Handle(GetStudentCharacteristicQuery request, CancellationToken cancellationToken)
+        public async Task<GetPositiveStudentCharacteristicResponse> Handle(GetPositiveStudentCharacteristicQuery request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
@@ -27,24 +27,25 @@ namespace SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCha
                 .Include(s => s.StudentCharacteristics)
                 .ThenInclude(c => c.Characteristic)
                 .FirstOrDefaultAsync(s => s.Id == _userContext.CurrentUserId) 
-                ?? throw new NotFoundException("Заданный пользователь не найден");
+                    ?? throw new NotFoundException("Заданный пользователь не найден");
 
             var studentCharacteristic = student.StudentCharacteristics.Where(x => CheckMeasuredCharacteristic(x)).ToList();
 
-            var dict = new Dictionary<CharacteristicType, List<Tuple<string, CharacteristicMeasure>>>()
+            var dict = new Dictionary<CharacteristicType, List<StudentCharacteristicDTO>>()
             { 
-                { CharacteristicType.Subject, new List<Tuple<string, CharacteristicMeasure>>()}, 
-                { CharacteristicType.Peculiarity, new List<Tuple<string, CharacteristicMeasure>>()} 
+                { CharacteristicType.Subject, new List<StudentCharacteristicDTO>()}, 
+                { CharacteristicType.Peculiarity, new List<StudentCharacteristicDTO>()} 
             };
 
             foreach (var x in studentCharacteristic)
                 dict[x.Characteristic!.CharacteristicType]
-                    .Add(new Tuple<string, CharacteristicMeasure>(x.Characteristic!.Description, CharacteristicMeasureExtension.GetValue(x.Value)));
+                    .Add(new StudentCharacteristicDTO() { Description = x.Characteristic!.Description, 
+                        CharacteristicMeasure = CharacteristicMeasureExtension.GetValue(x.Value) });
 
-            return new GetStudentCharacteristicResponse()
+            return new GetPositiveStudentCharacteristicResponse()
             {
                 PersonalCharacteristics = dict[CharacteristicType.Peculiarity],
-                Subjects = dict[CharacteristicType.Peculiarity],
+                Subjects = dict[CharacteristicType.Subject],
             };
         }
 

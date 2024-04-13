@@ -7,9 +7,8 @@ namespace SurveySystem.Web.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("test/[controller]")]
+    [Route("SurveySystem/[controller]/[action]")]
     public class BaseController : ControllerBase
     {
-
     }
 }
