@@ -108,7 +108,7 @@ namespace SurveySystem.Domain.Entities.Users
             {
                 ArgumentNullException.ThrowIfNull(value);
                 if (Role != Role.Student)
-                    throw new ExceptionBase($"Не совпадение роли и навигационного свойства ({Role.Student.GetDecription()})");
+                    throw new BadDataException($"Не совпадение роли и навигационного свойства ({Role.Student.GetDecription()})");
                 _student = value;
             }
         }

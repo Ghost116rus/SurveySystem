@@ -35,7 +35,7 @@ namespace SurveySystem.Aplication.Requests.Auth.Login
             if (user == null)
                 throw new NotFoundException("Неверный логин или пароль");
             if (!_passwordEncryptionService.ValidatePassword(request.Password, user.PasswordHash))
-                throw new ExceptionBase("Неверный логин или пароль");
+                throw new BadDataException("Неверный логин или пароль");
 
             var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
             var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);

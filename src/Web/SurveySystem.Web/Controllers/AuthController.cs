@@ -24,20 +24,20 @@ namespace SurveySystem.Web.Controllers
         [HttpPost("Login")]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(AuthResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-        public async Task<AuthResponse> LoginAsync(
+        public async Task<ActionResult<AuthResponse>> LoginAsync(
             [FromServices] IMediator mediator,
             [FromBody] LoginRequest request,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            return await mediator.Send(
+            return Ok(await mediator.Send(
                 new LoginQuery
                 {
                     Login = request.Login,
                     Password = request.Password,
                 },
-                cancellationToken);
+                cancellationToken));
         }
 
         /// <summary>

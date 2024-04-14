@@ -39,7 +39,7 @@ namespace SurveySystem.Domain.Entities.Users
             set
             {
                 if (value <= 0)
-                    throw new ExceptionBase("Позиция не может быть меньше 0");
+                    throw new BadDataException("Позиция не может быть меньше 0");
                 _currentPostion = value;
             }
         }

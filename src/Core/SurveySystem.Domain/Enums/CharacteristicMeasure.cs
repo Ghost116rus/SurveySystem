@@ -1,10 +1,4 @@
-﻿using SurveySystem.Domain.Entities.Users;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace SurveySystem.Domain.Enums
 {
@@ -26,7 +20,7 @@ namespace SurveySystem.Domain.Enums
         Pronounced
     }
 
-    public static class CharacteristicMeasureExtension
+    public static class CharacteristicMeasureMethods
     {
         public static CharacteristicMeasure GetValue(double value)
         {
