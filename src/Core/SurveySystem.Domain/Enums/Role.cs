@@ -16,4 +16,6 @@ namespace SurveySystem.Domain.Enums
         [Description("Администратор системы")]
         Administrator
     }
+
+
 }

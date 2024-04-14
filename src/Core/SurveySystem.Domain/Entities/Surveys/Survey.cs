@@ -1,5 +1,4 @@
-﻿using SurveySystem.Domain.Constants;
-using SurveySystem.Domain.Entities.Base;
+﻿using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Entities.Organization;
 using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Exceptions;
@@ -167,7 +166,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         private void SetFaculties(List<Faculty> faculties)
         {
             if (_institutes == null)
-                throw new ExceptionBase("Невозможно назначить кафедру, без выбора института");
+                throw new BadDataException("Невозможно назначить кафедру, без выбора института");
             ArgumentNullException.ThrowIfNull(faculties);
             _faculties = faculties;
         }
@@ -177,8 +176,8 @@ namespace SurveySystem.Domain.Entities.Surveys
 
         public void UpdateSurveyQuestions(List<SurveyTestQuestion> surveyTestQuestions)
         {
-            if (surveyTestQuestions is null)
-                throw new RequiredFieldNotSpecifiedException("Список вопросов анкеты не должен быть null");
+            if (surveyTestQuestions is null || surveyTestQuestions.Count < 1)
+                throw new RequiredFieldNotSpecifiedException("Для создания опроса необходим хотя бы 1 вопрос");
             _questions = surveyTestQuestions;
         }
     }

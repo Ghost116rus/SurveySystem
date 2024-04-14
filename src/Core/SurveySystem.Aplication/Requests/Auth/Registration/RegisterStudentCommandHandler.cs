@@ -29,7 +29,7 @@ namespace SurveySystem.Aplication.Requests.Auth.Register
         public async Task<AuthResponse> Handle(RegisterStudentCommand command, CancellationToken cancellationToken)
         {
             if (await _dbContext.Users.AnyAsync(x => x.Login == command.Login))
-                throw new ExceptionBase($"Пользователь с таким логином ({command.Login}) уже существует!");
+                throw new BadDataException($"Пользователь с таким логином ({command.Login}) уже существует!");
 
             var faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId);
 

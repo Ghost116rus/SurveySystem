@@ -39,7 +39,7 @@ namespace SurveySystem.Domain.Entities.Surveys
             set
             {
                 if (value < 1)
-                    throw new ExceptionBase("Позиция не может быть меньше 1");
+                    throw new BadDataException("Позиция не может быть меньше 1");
                 else
                     _position = value;
             }

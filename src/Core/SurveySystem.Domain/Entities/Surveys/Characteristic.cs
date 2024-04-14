@@ -1,7 +1,6 @@
 ﻿using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
-using System.Reflection.PortableExecutable;
 
 namespace SurveySystem.Domain.Entities.Surveys
 {
@@ -13,8 +12,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         {
             Description = description;
             CharacteristicType = characteristicType;
-            MinValue = minValue;
-            MaxValue = maxValue;
+            SetMinAndMaxValue(minValue, maxValue);
         }
 
         /// <summary>
@@ -38,7 +36,23 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public CharacteristicType CharacteristicType { get; set; }
 
-        public double MinValue { get; set; }    
-        public double MaxValue { get; set; }
+        public double MinValue { get; private set; }    
+        public double MaxValue { get; private set; }
+
+        /// <summary>
+        /// Метод установки минимального и максимального значения характеристики
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <exception cref="BadDataException"></exception>
+        public void SetMinAndMaxValue(double min, double max)
+        {
+            if (max - min == 0)
+                throw new BadDataException("Значения min и max не могут быть одинаковы!");
+            if (min > max)
+                throw new BadDataException("Значения min не могут быть больше max");
+            MinValue = min;
+            MaxValue = max;
+        }
     }
 }

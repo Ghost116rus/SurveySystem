@@ -110,10 +110,10 @@ namespace SurveySystem.Domain.Entities.Users
                 ArgumentNullException.ThrowIfNull(value);
 
                 if (Id != default && Id != value.Id)
-                    throw new ExceptionBase("Id назначяемого пользователя не соответсвует Id студента");
+                    throw new BadDataException("Id назначяемого пользователя не соответсвует Id студента");
 
                 if (value.Role != Role.Student)
-                    throw new ExceptionBase("Неправильная роль у студента");
+                    throw new BadDataException("Неправильная роль у студента");
 
                 _user = value;
                 Id = value.Id;

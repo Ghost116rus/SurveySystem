@@ -3,6 +3,7 @@ using SurveySystem.Aplication;
 using SurveySystem.Services;
 using SurveySystem.PosgreSQL;
 using SurveySystem.PosgreSQL.Services;
+using SurveySystem.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,7 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
+    app.UseCustomExceptionHandler();
     app.UseCors("AllowOrigin");
 
     app.UseAuthentication();
