@@ -18,7 +18,8 @@ namespace SurveySystem.Aplication.Requests.Characteristics.Put
             var charactersitc = await _dbContext.Characteristics
                 .FirstOrDefaultAsync(c => c.Id == request.CharactetisticId) ?? throw new NotFoundException();
 
-            charactersitc.Description = request.Description;
+            charactersitc.PositiveDescription = request.PositiveDescription;
+            charactersitc.NegativeDescription = request.NegativeDescription;
             charactersitc.SetMinAndMaxValue(request.MinValue, request.MaxValue);
             charactersitc.CharacteristicType = request.CharacteristicType;
 

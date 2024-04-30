@@ -143,9 +143,9 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_tag");
+                        .HasName("pk_tags");
 
-                    b.ToTable("tag", "public");
+                    b.ToTable("tags", "public");
                 });
 
             modelBuilder.Entity("SurveySystem.Domain.Entities.Organization.Faculty", b =>
@@ -250,7 +250,7 @@ namespace SurveySystem.PosgreSQL.Migrations
 
                     b.ToTable("semesters", "public");
 
-                    b.HasComment("Черты студентов");
+                    b.HasComment("Семестры");
                 });
 
             modelBuilder.Entity("SurveySystem.Domain.Entities.Surveys.Answer", b =>
@@ -281,7 +281,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("text")
-                        .HasComment("Текст вопроса");
+                        .HasComment("Текст ответа");
 
                     b.HasKey("Id")
                         .HasName("pk_answers");
@@ -320,7 +320,7 @@ namespace SurveySystem.PosgreSQL.Migrations
 
                     b.ToTable("answer_characteristics", "public");
 
-                    b.HasComment("Черты студентов");
+                    b.HasComment("Влияние ответов на характеристики");
                 });
 
             modelBuilder.Entity("SurveySystem.Domain.Entities.Surveys.Characteristic", b =>
@@ -343,12 +343,6 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasDefaultValueSql("now() at time zone 'utc'")
                         .HasComment("Дата создания записи");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description")
-                        .HasComment("Описание характеристики");
-
                     b.Property<double>("MaxValue")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("double precision")
@@ -367,6 +361,18 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_date")
                         .HasComment("Дата изменения записи");
+
+                    b.Property<string>("NegativeDescription")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("negative_description")
+                        .HasComment("Отрицательное описание характеристики");
+
+                    b.Property<string>("PositiveDescription")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("positive_description")
+                        .HasComment("Положительное описание характеристики");
 
                     b.HasKey("Id")
                         .HasName("pk_characteristics");
@@ -390,6 +396,11 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("now() at time zone 'utc'")
                         .HasComment("Дата создания записи");
+
+                    b.Property<int>("MaxCountOfAnswers")
+                        .HasColumnType("integer")
+                        .HasColumnName("max_count_of_answers")
+                        .HasComment("Максимальное количество ответов");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("timestamp with time zone")
@@ -496,7 +507,6 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasComment("Название опроса");
 
                     b.Property<DateTime?>("StartDate")
-                        .IsRequired()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_date");
 
@@ -806,7 +816,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("FacultiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_faculty_survey_faculty_faculties_id");
+                        .HasConstraintName("fk_faculty_survey_faculties_faculties_id");
 
                     b.HasOne("SurveySystem.Domain.Entities.Surveys.Survey", null)
                         .WithMany()
@@ -823,7 +833,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("InstitutesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_institute_survey_institute_institutes_id");
+                        .HasConstraintName("fk_institute_survey_institutes_institutes_id");
 
                     b.HasOne("SurveySystem.Domain.Entities.Surveys.Survey", null)
                         .WithMany()
@@ -864,7 +874,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_question_tag_tag_tags_id");
+                        .HasConstraintName("fk_question_tag_tags_tags_id");
                 });
 
             modelBuilder.Entity("SemesterSurvey", b =>
@@ -874,7 +884,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("SemestersNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_semester_survey_semester_semesters_temp_id");
+                        .HasConstraintName("fk_semester_survey_semesters_semesters_temp_id");
 
                     b.HasOne("SurveySystem.Domain.Entities.Surveys.Survey", null)
                         .WithMany()
@@ -891,7 +901,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("InstituteId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
-                        .HasConstraintName("fk_faculty_institute_institute_id");
+                        .HasConstraintName("fk_faculty_institutes_institute_id");
 
                     b.Navigation("Institute");
                 });
@@ -975,7 +985,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired()
-                        .HasConstraintName("fk_students_faculty_faculty_id");
+                        .HasConstraintName("fk_students_faculties_faculty_id");
 
                     b.HasOne("SurveySystem.Domain.Entities.Users.User", "User")
                         .WithOne("Student")
@@ -1071,7 +1081,7 @@ namespace SurveySystem.PosgreSQL.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_survey_tag_tag_tags_id");
+                        .HasConstraintName("fk_survey_tag_tags_tags_id");
                 });
 
             modelBuilder.Entity("SurveySystem.Domain.Entities.Organization.Faculty", b =>

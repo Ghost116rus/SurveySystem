@@ -26,8 +26,6 @@ namespace SurveySystem.Services.Authentication
 
         public string CurrentUserRoleName => User?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
 
-        public Role CurrentUserRole => Role.Student;
-
         private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
     }
 }

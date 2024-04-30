@@ -16,7 +16,7 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
 
             builder.Property(a => a.Text)
                 .IsRequired()
-                .HasComment("Текст вопроса");
+                .HasComment("Текст ответа");
 
             builder.HasMany(a => a.AnswerCharacteristicValues)
                 .WithOne(ch => ch.Answer)

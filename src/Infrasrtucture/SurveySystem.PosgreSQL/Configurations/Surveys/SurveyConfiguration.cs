@@ -16,10 +16,7 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
                 .IsRequired()
                 .HasComment("Название опроса");
 
-
-            // TODO: просмотреть внимательнее
-            builder.Property(s => s.StartDate)
-                .IsRequired();
+            builder.Property(s => s.StartDate);
 
             builder.Property(s => s.IsRepetable)
                 .IsRequired()
@@ -28,6 +25,9 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
             builder.Property(s => s.IsVisible)
                 .IsRequired()
                 .HasDefaultValue(false);
+
+            builder.HasMany(x => x.Tags)
+                .WithMany(s => s.Surveys);
 
             builder.HasMany(x => x.Semesters)
                 .WithMany(s => s.Surveys);

@@ -24,11 +24,11 @@ namespace SurveySystem.Domain.Entities.Surveys
         private Answer? _answer;
         private Characteristic? _characteristic;
 
-        public AnswerCharacteristicValue(Answer answer, Characteristic characteristic)
+        public AnswerCharacteristicValue(Answer answer, Characteristic characteristic, double value)
         {
-            Value = 0;
             Answer = answer;
             Characteristic = characteristic;
+            Value = value;
         }
 
         protected AnswerCharacteristicValue() { }
@@ -42,7 +42,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         public double Value
         {
             get => _value;
-            set
+            private set
             {
                 if (value < Characteristic?.MinValue)
                     _value = Characteristic.MinValue;

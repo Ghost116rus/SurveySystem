@@ -52,7 +52,9 @@ namespace SurveySystem.Domain.Entities.Surveys
             get => _survey;
             private set
             {
-                ArgumentNullException.ThrowIfNull(value);
+                if (value is null)
+                    throw new ExceptionBase("Без существующей анкеты невозможно создать тестовый вопрос");
+
                 _survey = value;
                 SurveyId = value.Id;
             }
@@ -63,7 +65,8 @@ namespace SurveySystem.Domain.Entities.Surveys
             get => _question;
             private set
             {
-                ArgumentNullException.ThrowIfNull(value);
+                if (value is null)
+                    throw new ExceptionBase("Невозможно создать тестовый вопрос без вопроса");
                 _question = value;
                 QuestionId = value.Id;
             }

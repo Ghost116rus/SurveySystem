@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Entities.Organization;
 using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Entities.Users;
@@ -8,6 +9,11 @@ namespace SurveySystem.Aplication.Interfaces
     public interface IDbContext
     {
         #region UsersEntities
+        
+        /// <summary>
+        /// Тэги для поиска
+        /// </summary>
+        DbSet<Tag> Tags { get; }    
         
         /// <summary>
         /// Пользователи системы
@@ -98,6 +104,11 @@ namespace SurveySystem.Aplication.Interfaces
         /// БД в памяти
         /// </summary>
         bool IsInMemory { get; }
+
+        /// <summary>
+        /// Индентификатор админа в случае, если бд создается автоматически
+        /// </summary>
+        Guid AdminId { get; set; }
 
         /// <summary>
         /// Сохранить изменения в БД

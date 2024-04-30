@@ -11,7 +11,7 @@ namespace SurveySystem.PosgreSQL.Configurations.Organization
         public void Configure(EntityTypeBuilder<Semester> builder)
         {
             builder.ToTable("semesters", "public")
-                .HasComment("Черты студентов");
+                .HasComment("Семестры");
 
             builder.HasKey(s => s.Number);
             builder.HasMany(s => s.Surveys)

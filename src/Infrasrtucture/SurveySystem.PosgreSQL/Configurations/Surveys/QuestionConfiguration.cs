@@ -22,6 +22,10 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
             builder.Property(q => q.Text)
                 .IsRequired()
                 .HasComment("Текст вопроса");
+            
+            builder.Property(q => q.MaxCountOfAnswers)
+                .IsRequired()
+                .HasComment("Максимальное количество ответов");
 
             builder.HasMany(x => x.Tags)
                 .WithMany(t => t.Questions);
