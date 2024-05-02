@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic;
-using SurveySystem.Domain.Enums;
 using SurveySystem.Requests.Students.StudentCharacteristic;
 
 namespace SurveySystem.Web.Controllers

@@ -32,5 +32,12 @@ namespace SurveySystem.Domain.Entities.Base
         public List<Question> Questions { get; set; } = new();
 
         #endregion
+
+        public void UpdateInfo(string description, TagType type)
+        {
+            Description = description; 
+            Type = type;
+        }
+
     }
 }

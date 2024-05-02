@@ -14,16 +14,8 @@ namespace SurveySystem.Aplication.Extenstions
     /// </summary>
     public static class Filters
     {
-        private static IQueryable<EntityWTags> FilterEntityWTags(this IQueryable<EntityWTags> query, IEnumerable<Guid> tags)
-        {
-            return query = query
-                    .Include(x => x.Tags)
-                    .Where(x => x.Tags!.Any(t => tags.Contains(t.Id)));
-        }
-
-
         /// <summary>
-        /// Создать фильтр для участий в мероприятии
+        /// Создать фильтр для отбора анкет
         /// </summary>
         /// <param name="query">Запрос</param>
         /// <param name="userContext">Контекст текущего пользователя</param>
@@ -33,7 +25,9 @@ namespace SurveySystem.Aplication.Extenstions
             ArgumentNullException.ThrowIfNull(query);
 
             if (tags != null && tags.Count() >= 1)
-                query.FilterEntityWTags(tags);
+                return query = query
+                        .Include(x => x.Tags)
+                        .Where(x => x.Tags!.Any(t => tags.Contains(t.Id)));
 
             return query;
         }

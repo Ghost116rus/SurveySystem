@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using SurveySystem.Aplication.Extenstions;
 using SurveySystem.Aplication.Interfaces;
+using SurveySystem.Domain.Exceptions;
 using SurveySystem.Requests.Surveys;
 using SurveySystem.Requests.Surveys.Survey;
+using SurveySystem.Requests.Tags;
 
 namespace SurveySystem.Aplication.Requests.Surveys.Survey.GetSurveyList
 {
@@ -23,9 +25,13 @@ namespace SurveySystem.Aplication.Requests.Surveys.Survey.GetSurveyList
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    TagsId = x.Tags != null ? x.Tags.Select(x => x.Id).ToList() : null, 
+                    Tags = x.Tags != null ? x.Tags.Select(
+                        x => new TagDTO() { Id = x.Id, Description = x.Description }).ToList() : null, 
                 })
                 .ToListAsync(cancellationToken);
+
+            if (surveys.Count < 1)
+                throw new NotFoundException("Анкеты с заданными тегами не были найдены");
 
             return new GetSurveysListResponse() { Surveys = surveys };
         }

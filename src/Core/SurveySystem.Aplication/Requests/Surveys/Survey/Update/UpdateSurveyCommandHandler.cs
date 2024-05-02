@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Entities.Surveys;
+using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
 
 namespace SurveySystem.Aplication.Requests.Surveys.Survey.Update
@@ -9,9 +10,13 @@ namespace SurveySystem.Aplication.Requests.Surveys.Survey.Update
     public class UpdateSurveyCommandHandler : IRequestHandler<UpdateSurveyCommand>
     {
         private readonly IDbContext _dbContext;
+        private readonly IUserContext _userContext;
 
-        public UpdateSurveyCommandHandler(IDbContext dbContext)
-            => _dbContext = dbContext;
+        public UpdateSurveyCommandHandler(IDbContext dbContext, IUserContext userContext)
+        {
+            _dbContext = dbContext;
+            _userContext = userContext;
+        }
 
         public async Task<Unit> Handle(UpdateSurveyCommand request, CancellationToken cancellationToken)
         {   
@@ -20,9 +25,13 @@ namespace SurveySystem.Aplication.Requests.Surveys.Survey.Update
             if (request.TestQuestions == null || request.TestQuestions.Count() < 1)
                 throw new BadDataException("Невозможно создать анкету, если вопросов меньше 1");
 
-            var survey = await _dbContext.Surveys.Include(s => s.Questions)
+            var survey = await _dbContext.Surveys.Include(s => s.Questions).Include(s => s.CreatedByUser)
                 .FirstOrDefaultAsync(x => x.Id == request.Id)                
                 ?? throw new NotFoundException("анкеты не была найдена");
+
+            if (_userContext.CurrentUserId != survey.CreatedByUserId
+                && _userContext.CurrentUserRoleName != Enum.GetName(Role.Administrator))
+                throw new ForbibenException("Редактировать анкету может только администратор или Создавший опрос");
 
             UpdateSurveyInfo(survey, request);
             UpdateSurveyTestQuestions(survey, request);

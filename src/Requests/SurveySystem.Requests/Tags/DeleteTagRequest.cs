@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SurveySystem.Requests.Surveys.Survey
+namespace SurveySystem.Requests.Tags
 {
-    public class GetSurveysListRequest
+    public class DeleteTagRequest
     {
-        public HashSet<Guid> Tags { get; set; }
+        public Guid Id { get; set; }
     }
 }

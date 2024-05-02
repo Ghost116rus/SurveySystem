@@ -33,7 +33,6 @@ namespace SurveySystem.PosgreSQL.Services
         /// <returns>Ничего</returns>
         public async Task MigrateAsync()
         {
-            _documentDbContext.Database.EnsureDeleted();
             var operationId = Guid.NewGuid().ToString().Substring(0, 4);
             _logger.LogInformation($"UpdateDatabase:{operationId}: starting...");
             try
