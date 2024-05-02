@@ -16,9 +16,6 @@ namespace SurveySystem.Domain.Enums
         ForQuestions = 1,
 
         [Description("Тэг, используемый в первую очередь для опросов")]
-        ForSurveys = 2,
-
-        [Description("Тэг, используемый в первую очередь для ответов")]
-        ForAnswers = 3
+        ForSurveys = 2
     }
 }

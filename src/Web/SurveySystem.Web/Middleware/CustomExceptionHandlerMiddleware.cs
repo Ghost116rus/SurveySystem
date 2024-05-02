@@ -43,6 +43,11 @@ namespace SurveySystem.Web.Middleware
                     code = HttpStatusCode.BadRequest;
                     break;
 
+                case ForbibenException forbibenException:
+                    code = HttpStatusCode.Forbidden;
+                    result = forbibenException.Message;
+                    break;
+
                 case DuplicateUniqueKeyException uniqueKey:
                     code = HttpStatusCode.InternalServerError;
                     result = uniqueKey.Message;

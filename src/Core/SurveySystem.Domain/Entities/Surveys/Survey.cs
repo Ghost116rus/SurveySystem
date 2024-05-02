@@ -42,22 +42,21 @@ namespace SurveySystem.Domain.Entities.Surveys
         private User? _modifiedByUser;
 
         private DateTime? _startDate;
-        private List<Semester> _semesters = new List<Semester>();
-        private List<Institute> _institutes = new List<Institute>();
-        private List<Faculty> _faculties = new List<Faculty>();
-        private List<SurveyTestQuestion> _questions = new List<SurveyTestQuestion>();
+        private List<Semester>? _semesters;
+        private List<Institute>? _institutes;
+        private List<Faculty>? _faculties;
+        private List<SurveyTestQuestion> _questions;
 
 
         public Survey(string name, DateTime? startDate, bool isRepetable, bool isVisible,
-            List<Institute> institutes, List<Faculty> faculties, List<Semester> semesters, List<Tag> tags, List<SurveyTestQuestion> surveyTestQuestions) : base(tags)
+            List<Institute>? institutes, List<Faculty>? faculties, List<Semester>? semesters, List<Tag>? tags) : base(tags)
         {
-            Name = name;
+            Name = string.IsNullOrEmpty(name) 
+                ? throw new RequiredFieldNotSpecifiedException("У анкеты должно быть название") : name;
             IsRepetable = isRepetable;
             IsVisible = isVisible;
             StartDate = startDate;
-            _institutes = institutes ?? _institutes;
-            _tags = tags;
-            UpdateSurveyQuestions(surveyTestQuestions);
+            _institutes = institutes;
             SetFaculties(faculties);
             SetSemesters(semesters);
         }
@@ -70,12 +69,12 @@ namespace SurveySystem.Domain.Entities.Surveys
         }
 
         /// <summary>
-        /// Название опроса
+        /// Название анкеты
         /// </summary>
         public string Name { get; private set; }
 
         /// <summary>
-        /// Определяет время начала опроса - в случае null - не используется
+        /// Определяет время начала анкеты - в случае null - не используется
         /// </summary>
         public DateTime? StartDate 
         {
@@ -87,12 +86,12 @@ namespace SurveySystem.Domain.Entities.Surveys
         }
 
         /// <summary>
-        /// Определяет возможность пройти опрос заново
+        /// Определяет возможность пройти анкета заново
         /// </summary>
         public bool IsRepetable { get; private set; } 
 
         /// <summary>
-        /// Определяет видимость опроса
+        /// Определяет видимость анкеты
         /// </summary>
         public bool IsVisible { get; private set; }
 
@@ -109,19 +108,19 @@ namespace SurveySystem.Domain.Entities.Surveys
         #region Navigation properties
 
         /// <summary>
-        /// Список назначенных институтов для назначения опроса - в случае, 
+        /// Список назначенных институтов для назначения анкеты - в случае, 
         /// если заданный список пустой, назначается всем студентам, что подходят под ограничение семестра, уровня образования и даты
         /// </summary>
         public IReadOnlyList<Semester>? Semesters => _semesters;
 
         /// <summary>
-        /// Список назначенных институтов для назначения опроса - в случае, 
+        /// Список назначенных институтов для назначения анкеты - в случае, 
         /// если заданный список пустой, назначается всем студентам, что подходят под ограничение семестра, уровня образования и даты
         /// </summary>
         public IReadOnlyList<Institute>? Institutes => _institutes;
 
         /// <summary>
-        /// Список назначенных кафедр для прохождения опроса - в случае, если список пустой,
+        /// Список назначенных кафедр для прохождения анкеты - в случае, если список пустой,
         /// назначается всем группам, что подходят под ограничение семестра и даты
         /// </summary>
         public IReadOnlyList<Faculty>? Faculties => _faculties;
@@ -142,7 +141,7 @@ namespace SurveySystem.Domain.Entities.Surveys
             set
             {
                 _createdByUser = value
-                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, создавший сущность");
+                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, создавший сущность не обнаружен");
                 CreatedByUserId = value.Id;
             }
         }
@@ -156,29 +155,48 @@ namespace SurveySystem.Domain.Entities.Surveys
             set
             {
                 _modifiedByUser = value
-                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, изменивший сущность");
+                    ?? throw new RequiredFieldNotSpecifiedException("Пользователь, изменивший сущность не обнаружен");
                 ModifiedByUserId = value.Id;
             }
         }
 
         #endregion
 
-        private void SetFaculties(List<Faculty> faculties)
+        private void SetFaculties(List<Faculty>? faculties)
         {
-            if (_institutes == null)
-                throw new BadDataException("Невозможно назначить кафедру, без выбора института");
-            ArgumentNullException.ThrowIfNull(faculties);
+            if (_institutes is null && faculties != null)
+                throw new BadDataException("Невозможно назначить кафедры, без выбора институтов");
             _faculties = faculties;
         }
 
-        private void SetSemesters(List<Semester> semesters) => _semesters = semesters;
-        
+        private void SetSemesters(List<Semester>? semesters) => _semesters = semesters;
 
+        /// <summary>
+        /// Обновляет вопросы в анкете предварительно сортируя их по позициям 
+        /// </summary>
+        /// <param name="surveyTestQuestions"></param>
+        /// <exception cref="RequiredFieldNotSpecifiedException"></exception>
         public void UpdateSurveyQuestions(List<SurveyTestQuestion> surveyTestQuestions)
         {
             if (surveyTestQuestions is null || surveyTestQuestions.Count < 1)
-                throw new RequiredFieldNotSpecifiedException("Для создания опроса необходим хотя бы 1 вопрос");
-            _questions = surveyTestQuestions;
+                throw new RequiredFieldNotSpecifiedException("Для анкеты необходим хотя бы 1 вопрос");
+            surveyTestQuestions = surveyTestQuestions.OrderBy(x => x.Position).ToList();
+            _questions = surveyTestQuestions;               
+        }
+
+
+        public void UpdateInfo(string name, DateTime? startDate, bool isRepetable, bool isVisible,
+            List<Institute>? institutes, List<Faculty>? faculties, List<Semester>? semesters, List<Tag>? tags)
+        {
+            Name = string.IsNullOrEmpty(name)
+                ? throw new RequiredFieldNotSpecifiedException("У анкеты должно быть название") : name;
+            IsRepetable = isRepetable;
+            IsVisible = isVisible;
+            StartDate = startDate;
+            _institutes = institutes;
+            _tags = tags;
+            SetFaculties(faculties);
+            SetSemesters(semesters);
         }
     }
 }

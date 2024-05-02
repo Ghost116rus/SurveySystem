@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SurveySystem.Aplication.Requests.Characteristic;
 using SurveySystem.Aplication.Requests.Characteristics.Create;
 using SurveySystem.Aplication.Requests.Characteristics.Delete;
 using SurveySystem.Aplication.Requests.Characteristics.GetAll;
 using SurveySystem.Aplication.Requests.Characteristics.Patch;
 using SurveySystem.Aplication.Requests.Characteristics.Put;
-using SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic;
 using SurveySystem.Requests.Characteristic.GetAll;
 using Swashbuckle.AspNetCore.Annotations;
 

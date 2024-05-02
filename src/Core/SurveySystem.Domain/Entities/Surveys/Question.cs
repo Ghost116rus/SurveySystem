@@ -2,7 +2,6 @@
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
 
-
 namespace SurveySystem.Domain.Entities.Surveys
 {
     public class Question : EntityWTags
@@ -19,13 +18,16 @@ namespace SurveySystem.Domain.Entities.Surveys
 
         private List<Answer> _answers;
         private List<QuestionEvaluationCriteria> _criteries;
+        private int _maxCountOfAnswers;
 
-        public Question(QuestionType questionType, string text) 
+        public Question(QuestionType questionType, string text, int maxCountOfAnswers, List<Tag> tags)
+            : base(tags)
         {
             Type = questionType;
             UpdateQuestionText(text);
             _answers = new();
             _criteries = new();
+            MaxCountOfAnswers = maxCountOfAnswers;
         }
 
         protected Question() { }
@@ -38,8 +40,22 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// <summary>
         /// Текст вопроса
         /// </summary>
-        public string Text { get; private set; } = "";
+        public string Text { get; private set; } = default!;
 
+        public int MaxCountOfAnswers
+        {
+            get => _maxCountOfAnswers;
+            private set
+            {
+                if (value != 1 && Type != QuestionType.NonAlternative)
+                    throw new BadDataException("Максимальное количество ответов можно задать " +
+                        "только для вопросов с несколькими вариантами ответа");
+                if (value < 1)
+                    throw new BadDataException("Максимальное количество ответов не может быть меньше 1");
+
+                _maxCountOfAnswers = value;
+            }
+        }
 
 
         #region Navigation properties

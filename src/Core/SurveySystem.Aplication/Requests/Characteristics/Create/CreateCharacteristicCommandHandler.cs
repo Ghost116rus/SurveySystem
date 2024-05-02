@@ -15,7 +15,8 @@ namespace SurveySystem.Aplication.Requests.Characteristics.Create
             ArgumentNullException.ThrowIfNull(request);
 
             var characteristic = new Domain.Entities.Surveys.Characteristic(
-                description: request.Description, characteristicType: request.CharacteristicType,
+                positiveDescription: request.PositiveDescription, negativeDescription: request.NegativeDescription,
+                characteristicType: request.CharacteristicType,
                 minValue: request.MinValue, maxValue: request.MaxValue);
 
             await _dbContext.Characteristics.AddAsync(characteristic);

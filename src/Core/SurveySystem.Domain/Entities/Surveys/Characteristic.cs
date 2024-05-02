@@ -6,11 +6,13 @@ namespace SurveySystem.Domain.Entities.Surveys
 {
     public class Characteristic : BaseEntity
     {
-        private string _description = default!;
+        private string _positiveDescription = default!;
+        private string _negativeDescription = default!;
 
-        public Characteristic(string description, CharacteristicType characteristicType, double minValue, double maxValue)
+        public Characteristic(string positiveDescription, string negativeDescription, CharacteristicType characteristicType, double minValue, double maxValue)
         {
-            Description = description;
+            PositiveDescription = positiveDescription;
+            NegativeDescription = negativeDescription;
             CharacteristicType = characteristicType;
             SetMinAndMaxValue(minValue, maxValue);
         }
@@ -21,13 +23,23 @@ namespace SurveySystem.Domain.Entities.Surveys
         protected Characteristic() { }
 
         /// <summary>
-        /// Описание характеристики
+        /// Положительное описание характеристики (качество, которым в той или иной степени обладает студент)
         /// </summary>
-        public string Description
+        public string PositiveDescription
         {
-            get => _description;
-            set => _description = string.IsNullOrEmpty(value) ? 
-                throw new RequiredFieldNotSpecifiedException("CharacteristicDescription") : value;
+            get => _positiveDescription;
+            set => _positiveDescription = string.IsNullOrEmpty(value) ? 
+                throw new RequiredFieldNotSpecifiedException("CharacteristicPositiveDescription") : value;
+        }
+
+        /// <summary>
+        /// Отрицательное описание характеристики (качество, которым в той или иной степени НЕ обладает студент)
+        /// </summary>
+        public string NegativeDescription
+        {
+            get => _negativeDescription;
+            set => _negativeDescription = string.IsNullOrEmpty(value) ? 
+                throw new RequiredFieldNotSpecifiedException("CharacteristicNegativeDescription") : value;
         }
 
         /// <summary>
@@ -38,6 +50,10 @@ namespace SurveySystem.Domain.Entities.Surveys
 
         public double MinValue { get; private set; }    
         public double MaxValue { get; private set; }
+
+        public double MiddlePositiveValue { get => (MaxValue + MiddleValue) / 2; }
+        public double MiddleValue         { get => (MaxValue + MinValue) / 2; }
+        public double MiddleNegativeValue { get => (MinValue + MiddleValue) / 2; }
 
         /// <summary>
         /// Метод установки минимального и максимального значения характеристики

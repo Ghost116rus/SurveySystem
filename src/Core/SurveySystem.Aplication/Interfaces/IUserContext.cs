@@ -17,6 +17,6 @@ namespace SurveySystem.Aplication.Interfaces
         /// <summary>
         /// Роль текущего пользователя
         /// </summary>
-        Role CurrentUserRole { get; }
+        string CurrentUserRoleName { get; }
     }
 }

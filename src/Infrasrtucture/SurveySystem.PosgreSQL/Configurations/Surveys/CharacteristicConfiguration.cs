@@ -17,9 +17,13 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
             builder.ToTable("characteristics", "public")
                 .HasComment("характеристики");
 
-            builder.Property(q => q.Description)
+            builder.Property(q => q.PositiveDescription)
                 .IsRequired()
-                .HasComment("Описание характеристики");
+                .HasComment("Положительное описание характеристики");
+
+            builder.Property(q => q.NegativeDescription)
+                .IsRequired()
+                .HasComment("Отрицательное описание характеристики");
 
             builder.Property(q => q.CharacteristicType)
                 .IsRequired()

@@ -39,7 +39,7 @@ namespace SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCha
 
             foreach (var x in studentCharacteristic)
                 dict[x.Characteristic!.CharacteristicType]
-                    .Add(new StudentCharacteristicDTO() { Description = x.Characteristic!.Description, 
+                    .Add(new StudentCharacteristicDTO() { Description = x.Characteristic!.PositiveDescription, 
                         CharacteristicMeasure = CharacteristicMeasureMethods.GetValue(x.Value) });
 
             return new GetPositiveStudentCharacteristicResponse()

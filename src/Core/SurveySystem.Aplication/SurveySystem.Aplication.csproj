@@ -21,8 +21,6 @@
   <ItemGroup>
     <Folder Include="Requests\Surveys\Answers\" />
     <Folder Include="Requests\Surveys\Questions\" />
-    <Folder Include="Requests\Surveys\Survey\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   
 </Project>

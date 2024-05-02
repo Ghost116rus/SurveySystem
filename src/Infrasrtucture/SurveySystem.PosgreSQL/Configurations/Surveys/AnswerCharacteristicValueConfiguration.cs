@@ -10,7 +10,7 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
         public void Configure(EntityTypeBuilder<AnswerCharacteristicValue> builder)
         {
             builder.ToTable("answer_characteristics", "public")
-                .HasComment("Черты студентов");
+                .HasComment("Влияние ответов на характеристики");
 
 
             builder.HasKey(aCh => new { aCh.AnswerId, aCh.CharacteristicId});

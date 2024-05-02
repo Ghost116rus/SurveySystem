@@ -4,7 +4,8 @@ namespace SurveySystem.Aplication.Requests.Characteristic
 {
     public class CreateCharacteristicRequest
     {
-        public string Description { get; set; }
+        public string PositiveDescription { get; set; }
+        public string NegativeDescription { get; set; }
 
         public CharacteristicType CharacteristicType { get; set; }
 

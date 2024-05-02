@@ -42,6 +42,7 @@ namespace SurveySystem.PosgreSQL
         }
         #region UsersEntities
 
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<StudentAnswer> StudentAnswers { get; set; }
@@ -72,6 +73,9 @@ namespace SurveySystem.PosgreSQL
 
         /// <inheritdoc/>
         public bool IsInMemory => Database.IsInMemory();
+
+        public Guid AdminId { get; set; }
+
 
         /// <inheritdoc cref="IDbContext.SaveChangesAsync(bool, CancellationToken)" />
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -178,13 +182,13 @@ namespace SurveySystem.PosgreSQL
                 && entityEntry.State != EntityState.Unchanged
                 && entityEntry.Entity is IUserTrackable userTrackable)
             {
-                userTrackable.ModifiedByUserId = _userContext.CurrentUserId;
+                userTrackable.ModifiedByUserId = AdminId == default ? _userContext.CurrentUserId : AdminId;
 
                 if (entityEntry.State == EntityState.Added)
                 {
                     if (IsInMemory && userTrackable.CreatedByUserId != default)
                         return;
-                    userTrackable.CreatedByUserId = _userContext.CurrentUserId;
+                    userTrackable.CreatedByUserId = AdminId == default ? _userContext.CurrentUserId : AdminId;
                 }
             }
         }
