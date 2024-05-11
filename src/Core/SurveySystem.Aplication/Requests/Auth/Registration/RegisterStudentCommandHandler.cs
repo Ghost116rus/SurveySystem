@@ -49,7 +49,7 @@ namespace SurveySystem.Aplication.Requests.Auth.Register
             var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
             var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);
 
-            return new AuthResponse(user.Id, Enum.GetName(user.Role)!, token);
+            return new AuthResponse(user.FullName, Enum.GetName(user.Role)!, token);
         }
     }
 }

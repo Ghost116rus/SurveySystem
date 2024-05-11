@@ -114,18 +114,18 @@ namespace SurveySystem.PosgreSQL.Services
 
             var questions = new List<Question>()
             {
-                new Question(QuestionType.Alternative, "Я с удовольствием иду в университет", 1, basicTags),
-                new Question(QuestionType.Alternative, "Я люблю задавать вопросы на лекции", 1, basicTags),
-                new Question(QuestionType.Alternative, "Полученные знания важнее оценок", 1, basicTags),
-                new Question(QuestionType.Alternative, "Мне нравится моя будущая профессия", 1, basicTags),
-                new Question(QuestionType.Alternative, "Я и сейчас уверен в правильности выбора профессии", 1, basicTags),
+                new Question(QuestionType.Alternative, "Я с удовольствием иду в университет", 1, basicTags, true),
+                new Question(QuestionType.Alternative, "Я люблю задавать вопросы на лекции", 1, basicTags, true),
+                new Question(QuestionType.Alternative, "Полученные знания важнее оценок", 1, basicTags, true),
+                new Question(QuestionType.Alternative, "Мне нравится моя будущая профессия", 1, basicTags, true),
+                new Question(QuestionType.Alternative, "Я и сейчас уверен в правильности выбора профессии", 1, basicTags, true),
                 new Question(QuestionType.NonAlternative, "Какие предметы вам нравятся больше всего, выберите 3 самых любимых", 3, basicTags),
                 new Question(QuestionType.NonAlternative, "Выберите что вам действительно интересно из этого", 2, null),
-                new Question(QuestionType.Alternative, "Мне легко общаться с моими однокурсниками", 1, null),
-                new Question(QuestionType.Alternative, "Я люблю помогать своим однокурсникам и если мне требуется помощь, я всегда могу к ним обраться", 1, null),
-                new Question(QuestionType.Alternative, "Мне нравится заниматься исследованием актуальных научных проблем", 1, null),
-                new Question(QuestionType.Alternative, "Я привык выделять в делах главное и не отвлекаться на посторонее", 1, null),
-                new Question(QuestionType.Alternative, "Умею длительно работать с полной отдачей сил", 1, null),
+                new Question(QuestionType.Alternative, "Мне легко общаться с моими однокурсниками", 1, null, true),
+                new Question(QuestionType.Alternative, "Я люблю помогать своим однокурсникам и если мне требуется помощь, я всегда могу к ним обраться", 1, null, true),
+                new Question(QuestionType.Alternative, "Мне нравится заниматься исследованием актуальных научных проблем", 1, null, true),
+                new Question(QuestionType.Alternative, "Я привык выделять в делах главное и не отвлекаться на посторонее", 1, null, true),
+                new Question(QuestionType.Alternative, "Умею длительно работать с полной отдачей сил", 1, null, true),
             };
 
             await _dbContext.Questions.AddRangeAsync(questions);

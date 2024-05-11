@@ -11,6 +11,9 @@ namespace SurveySystem.Aplication.Services
             if (question.Type != Domain.Enums.QuestionType.Alternative)
                 throw new BadDataException("Стандартные ответы могут быть только у альтернативных вопросов");
 
+            if (!question.IsAutoCreatedAnswers)
+                throw new RequiredFieldNotSpecifiedException("Автоматическое формирование ответов неправильно задано");
+
             return new List<Answer>()
             {
                 new Answer("Это совсем не относится ко мне", question),

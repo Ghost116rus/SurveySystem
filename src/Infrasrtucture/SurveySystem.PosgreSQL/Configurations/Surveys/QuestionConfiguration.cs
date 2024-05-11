@@ -27,6 +27,11 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
                 .IsRequired()
                 .HasComment("Максимальное количество ответов");
 
+            builder.Property(q => q.IsAutoCreatedAnswers)
+                .IsRequired()
+                .HasDefaultValue(false)
+                .HasComment("Автоматически ли сгенерированы ответы");
+
             builder.HasMany(x => x.Tags)
                 .WithMany(t => t.Questions);
 

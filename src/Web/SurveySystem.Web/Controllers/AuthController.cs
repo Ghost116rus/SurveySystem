@@ -21,10 +21,10 @@ namespace SurveySystem.Web.Controllers
         /// <param name="request">Запрос</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Объект логина</returns>
-        [HttpPost("Login")]
+        [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(AuthResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-        public async Task<ActionResult<AuthResponse>> LoginAsync(
+        public async Task<ActionResult<AuthResponse>> Login(
             [FromServices] IMediator mediator,
             [FromBody] LoginRequest request,
             CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ namespace SurveySystem.Web.Controllers
         /// <param name="request">Запрос</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Идентификатор созданного студента</returns>
-        [HttpPost("Register/Student")]
+        [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(AuthResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
         public async Task<AuthResponse> PostRegisterAsync(
@@ -70,7 +70,7 @@ namespace SurveySystem.Web.Controllers
             //    },
             //    cancellationToken);
 
-            return new AuthResponse(Guid.Empty, "aw", "aw");
+            return new AuthResponse("Студентов студент студентович", "aw", "aw");
         }
     }
 }

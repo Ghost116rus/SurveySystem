@@ -31,5 +31,23 @@ namespace SurveySystem.Aplication.Extenstions
 
             return query;
         }
+
+        /// <summary>
+        /// Создать фильтр для отбора ответов
+        /// </summary>
+        /// <param name="query">Запрос</param>
+        /// <param name="userContext">Контекст текущего пользователя</param>
+        /// <returns>Запрос с фильтром</returns>
+        public static IQueryable<Question> FilterByTags(this IQueryable<Question> query, IEnumerable<Guid> tags)
+        {
+            ArgumentNullException.ThrowIfNull(query);
+
+            if (tags != null && tags.Count() >= 1)
+                return query = query
+                        .Include(x => x.Tags)
+                        .Where(x => x.Tags!.Any(t => tags.Contains(t.Id)));
+
+            return query;
+        }
     }
 }

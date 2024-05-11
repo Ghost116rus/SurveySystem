@@ -31,7 +31,7 @@ namespace SurveySystem.Aplication.Requests.Surveys.Survey.GetSurveyList
                 .ToListAsync(cancellationToken);
 
             if (surveys.Count < 1)
-                throw new NotFoundException("Анкеты с заданными тегами не были найдены");
+                throw new NotFoundException("Анкеты " + (request.Tags.Count > 1 ? "с заданными тегами" : "") + "не были найдены");
 
             return new GetSurveysListResponse() { Surveys = surveys };
         }

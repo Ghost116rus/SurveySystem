@@ -20,7 +20,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         private List<QuestionEvaluationCriteria> _criteries;
         private int _maxCountOfAnswers;
 
-        public Question(QuestionType questionType, string text, int maxCountOfAnswers, List<Tag> tags)
+        public Question(QuestionType questionType, string text, int maxCountOfAnswers, List<Tag> tags, bool autoCreatedAnswers = false)
             : base(tags)
         {
             Type = questionType;
@@ -28,6 +28,7 @@ namespace SurveySystem.Domain.Entities.Surveys
             _answers = new();
             _criteries = new();
             MaxCountOfAnswers = maxCountOfAnswers;
+            IsAutoCreatedAnswers = autoCreatedAnswers;
         }
 
         protected Question() { }
@@ -57,6 +58,7 @@ namespace SurveySystem.Domain.Entities.Surveys
             }
         }
 
+        public bool IsAutoCreatedAnswers { get; private set; }
 
         #region Navigation properties
 

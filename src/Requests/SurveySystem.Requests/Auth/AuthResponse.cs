@@ -11,19 +11,19 @@
         /// <param name="userId">Id пользователя</param>
         /// <param name="token">Токен авторизации</param>
         public AuthResponse(
-            Guid userId,
+            string fullName,
             string role,
             string token)
         {
-            UserId = userId;
+            FullName = fullName;
             Role = role;
             Token = token;
         }
 
         /// <summary>
-        /// Id пользователя
+        /// Полное имя пользователя
         /// </summary>
-        public Guid UserId { get; }
+        public string FullName { get; }
 
         /// <summary>
         /// Роль пользователя
