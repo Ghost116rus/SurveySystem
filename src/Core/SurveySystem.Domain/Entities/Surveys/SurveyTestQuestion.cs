@@ -38,8 +38,8 @@ namespace SurveySystem.Domain.Entities.Surveys
             get => _position;
             set
             {
-                if (value < 1)
-                    throw new BadDataException("Позиция не может быть меньше 1");
+                if (value < 0)
+                    throw new BadDataException("Позиция не может быть меньше 0");
                 else
                     _position = value;
             }

@@ -30,6 +30,7 @@ namespace SurveySystem.Domain.Entities.Users
         {
             Student = student;
             Survey = survey;
+            CurrentPostion = 0;
         }
         protected StudentSurveyProgress() { }
 
@@ -38,7 +39,7 @@ namespace SurveySystem.Domain.Entities.Users
             get => _currentPostion;
             set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new BadDataException("Позиция не может быть меньше 0");
                 _currentPostion = value;
             }

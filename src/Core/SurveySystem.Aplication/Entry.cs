@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Aplication.Services;
 using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Interfaces;
@@ -22,6 +23,7 @@ namespace SurveySystem.Aplication
             services.AddMediatR(typeof(BaseEntity));
 
             services.AddScoped<IAnswersService, AnswersService>();
+            services.AddScoped<IQuestionService, QuestionService>();
 
             return services;
         }

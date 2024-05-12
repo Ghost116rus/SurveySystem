@@ -9,8 +9,7 @@ using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
 using SurveySystem.Domain.Interfaces;
 using System.ComponentModel;
-using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace SurveySystem.PosgreSQL.Services
 {
@@ -112,6 +111,20 @@ namespace SurveySystem.PosgreSQL.Services
             if (basicCharacteristics == null)
                 return;
 
+            var greeting = new Question(
+                    questionType: QuestionType.Information,
+                    text: "   Приветствую тебя в нашем новом приложении.\r\nЯ твой персональный ассистент, что поможет тебе лучше познать себя. " +
+                    "Позволь мне задать тебе несколько вопросов, это не займет много времени.\r\nОтвечай честно, это опрос не для кого-то, а для тебя.\r\n",
+                    1, null
+                    );
+            var final = new Question(
+                    questionType: QuestionType.Information,
+                    text: "Вот и всё закончилось, поздравляю тебя. Если хочешь посмотреть, что я узнал о тебе внизу будет кнопка перейти в визуализацию твоего " +
+                    "цифрового профиля (также она есть слева “Цифровой профиль”). Если захочешь пройти знакомство заново, можешь нажать кнопку ниже, " +
+                    "либо во вкладке “Опросы”, в верхнем левом углу",
+                    1, null
+                    );
+
             var questions = new List<Question>()
             {
                 new Question(QuestionType.Alternative, "Я с удовольствием иду в университет", 1, basicTags, true),
@@ -128,6 +141,8 @@ namespace SurveySystem.PosgreSQL.Services
                 new Question(QuestionType.Alternative, "Умею длительно работать с полной отдачей сил", 1, null, true),
             };
 
+            await _dbContext.Questions.AddAsync(greeting);
+            await _dbContext.Questions.AddAsync(final);
             await _dbContext.Questions.AddRangeAsync(questions);
 
             await _dbContext.SaveChangesAsync();
@@ -226,10 +241,45 @@ namespace SurveySystem.PosgreSQL.Services
             await _dbContext.AnswerCharacteristicValues.AddRangeAsync(subjectsAnswersCharacteristics);
             await _dbContext.AnswerCharacteristicValues.AddRangeAsync(actionCharacteristics);
 
-            var testSurvey = new Survey("Тестовый опрос", null, true, true, null, null, null, basicTags);
+            var testSurvey = new Survey("Ознакомительный опрос", null, true, true, null, null, null, basicTags);
+            var surveyQuestions = new List<SurveyTestQuestion>()
+            {
+                new SurveyTestQuestion(0, testSurvey, greeting)
+            };
             int position = 1;
-            testSurvey.UpdateSurveyQuestions(questions.Select(q => new SurveyTestQuestion(position++, testSurvey, q)).ToList());
+            surveyQuestions.AddRange(questions.Select(q => new SurveyTestQuestion(position++, testSurvey, q)));
+            surveyQuestions.Add(new SurveyTestQuestion(position, testSurvey, final));
+
+            testSurvey.UpdateSurveyQuestions(surveyQuestions);
+
+            var secondSurvey = new Survey("Второй опрос", null, false, true, null, null, null, new List<Tag>() { basicTags[0]});
+            secondSurvey.UpdateSurveyQuestions(new List<SurveyTestQuestion>()
+            {
+                new SurveyTestQuestion(0, secondSurvey, greeting),
+                new SurveyTestQuestion(1, secondSurvey, questions[0]),
+                new SurveyTestQuestion(2, secondSurvey, questions[1]),
+                new SurveyTestQuestion(3, secondSurvey, questions[2]),
+                new SurveyTestQuestion(4, secondSurvey, final),
+            });
+
             await _dbContext.Surveys.AddAsync(testSurvey);
+            await _dbContext.Surveys.AddAsync(secondSurvey);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            var student = await _dbContext.Students.Include(s => s.User)
+                .FirstOrDefaultAsync(x => x.User != null && x.User.Login == "student");
+
+            if (student == null)
+                return;
+
+            var studentProgress1 = new StudentSurveyProgress(student, testSurvey);
+            var studentProgress2 = new StudentSurveyProgress(student, secondSurvey);
+
+            await _dbContext.SurveyProgress.AddAsync(studentProgress1);
+            await _dbContext.SurveyProgress.AddAsync(studentProgress2);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
 

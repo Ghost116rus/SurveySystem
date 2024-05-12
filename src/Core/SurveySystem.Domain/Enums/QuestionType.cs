@@ -12,5 +12,8 @@ namespace SurveySystem.Domain.Enums
 
         [Description("Вопрос, где пользователю необходимо написать свой вариант ответа")]
         Open,
+
+        [Description("Информация, не требующая прочтения, но не ответа")]
+        Information,
     }
 }

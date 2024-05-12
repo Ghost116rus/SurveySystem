@@ -19,14 +19,16 @@ namespace SurveySystem.Domain.Entities.Surveys
         private List<Answer> _answers;
         private List<QuestionEvaluationCriteria> _criteries;
         private int _maxCountOfAnswers;
+        private QuestionType _type;
 
         public Question(QuestionType questionType, string text, int maxCountOfAnswers, List<Tag> tags, bool autoCreatedAnswers = false)
             : base(tags)
         {
-            Type = questionType;
-            UpdateQuestionText(text);
             _answers = new();
             _criteries = new();
+
+            UpdateQuestionText(text);
+            Type = questionType;
             MaxCountOfAnswers = maxCountOfAnswers;
             IsAutoCreatedAnswers = autoCreatedAnswers;
         }
@@ -36,7 +38,16 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// <summary>
         /// Тип вопроса. Подробно какие типы есть смотри в <see cref="QuestionType"/>
         /// </summary>
-        public QuestionType Type { get; private set; }
+        public QuestionType Type 
+        {
+            get => _type;
+            private set
+            {
+                if (value == QuestionType.Information)                
+                    _answers.Add( new Answer("IsRead", this) );
+                _type = value;                
+            }
+        }
 
         /// <summary>
         /// Текст вопроса
@@ -48,11 +59,11 @@ namespace SurveySystem.Domain.Entities.Surveys
             get => _maxCountOfAnswers;
             private set
             {
+                if (value < 1)
+                    throw new BadDataException("Максимальное количество ответов не может быть меньше 1");
                 if (value != 1 && Type != QuestionType.NonAlternative)
                     throw new BadDataException("Максимальное количество ответов можно задать " +
                         "только для вопросов с несколькими вариантами ответа");
-                if (value < 1)
-                    throw new BadDataException("Максимальное количество ответов не может быть меньше 1");
 
                 _maxCountOfAnswers = value;
             }

@@ -5,6 +5,6 @@
         public Guid Id { get; set; }
         public string SurveyName { get; set; }
 
-        public DateTime UpdatedTime { get; set; }
+        public string UpdatedTime { get; set; }
     }
 }
