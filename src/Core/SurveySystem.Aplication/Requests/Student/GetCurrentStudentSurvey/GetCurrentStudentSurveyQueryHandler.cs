@@ -50,7 +50,7 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                     Type = x.Key.Type,
                     IsActual = x.First().IsActual,
                     AnswerTime = x.First().ModifiedOn.ToLocalTime().ToString(),
-                    Answers = x.Key!.Answers!.Select(a => new CurrentStudentSurveyQuestionAnswerDTO()
+                    Answers = x.Key!.Answers!.OrderBy(x => x.PositionInQuestion).Select(a => new CurrentStudentSurveyQuestionAnswerDTO()
                     {
                         Id = a.Id,
                         Text = a.Text,

@@ -16,11 +16,11 @@ namespace SurveySystem.Aplication.Services
 
             return new List<Answer>()
             {
-                new Answer("Это совсем не относится ко мне", question),
-                new Answer("Это не относится ко мне", question),
-                new Answer("Сомневаюсь в ответе", question),
-                new Answer("Это относится ко мне", question),
-                new Answer("Это полностью относится ко мне", question)
+                new Answer("Это совсем не относится ко мне", question, 1),
+                new Answer("Это не относится ко мне", question, 2),
+                new Answer("Сомневаюсь в ответе", question, 3),
+                new Answer("Это относится ко мне", question, 4),
+                new Answer("Это полностью относится ко мне", question, 5)
             };
         }
 

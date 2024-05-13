@@ -4,7 +4,6 @@ using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
-using SurveySystem.Requests.Questions;
 
 namespace SurveySystem.Aplication.Requests.Surveys.Questions.Create
 {
@@ -52,7 +51,7 @@ namespace SurveySystem.Aplication.Requests.Surveys.Questions.Create
 
                 foreach (var answer in request.Answers)
                 {
-                    var newAnswer = new Answer(answer.Text, newQuestion);
+                    var newAnswer = new Answer(answer.Text, newQuestion, answer.PositionInQuestion);
                     foreach (var item in answer.CharacteristicsValues)
                     {
                         var newAnswerValue = new AnswerCharacteristicValue(newAnswer,

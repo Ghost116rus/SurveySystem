@@ -38,7 +38,7 @@ namespace SurveySystem.Aplication.Services
                 QuestionText = currentQuestion.Text,
                 Type = currentQuestion.Type,
                 AnswerTime = "",
-                Answers = currentQuestion.Answers!.Select(x => new CurrentStudentSurveyQuestionAnswerDTO()
+                Answers = currentQuestion.Answers!.OrderBy(x => x.PositionInQuestion)!.Select(x => new CurrentStudentSurveyQuestionAnswerDTO()
                 {
                     Id = x.Id,
                     Text = x.Text,

@@ -25,9 +25,10 @@ namespace SurveySystem.Domain.Entities.Surveys
         private List<AnswerCharacteristicValue> _answersCharaterisics = new();
         private List<StudentAnswer> _studentAnswers = new();
 
-        public Answer(string text, Question question)
+        public Answer(string text, Question question, int positionInQuestion = -1)
         {
             Question = question;
+            PositionInQuestion = positionInQuestion;
             UpdateQuestionText(text);
         }
 
@@ -40,7 +41,7 @@ namespace SurveySystem.Domain.Entities.Surveys
         /// </summary>
         public string Text { get; private set; } = "";
 
-
+        public int PositionInQuestion { get; private set; }
 
         #region NavigfationProperties
 

@@ -29,6 +29,7 @@ namespace SurveySystem.Aplication.Requests.Surveys.Questions.Get
                     Type = q.Type,
                     Answers = q.Answers == null ? null : q.Answers.Select(a => new AnswerDTO() 
                     { 
+                        PositionInQuestion = a.PositionInQuestion,
                         CharacteristicsValues = a.AnswerCharacteristicValues
                         .Select(a => new AnswerCharactersticValueDTO()
                         { 

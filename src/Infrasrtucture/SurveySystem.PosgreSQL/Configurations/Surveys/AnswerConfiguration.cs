@@ -18,6 +18,10 @@ namespace SurveySystem.PosgreSQL.Configurations.Surveys
                 .IsRequired()
                 .HasComment("Текст ответа");
 
+            builder.Property(a => a.PositionInQuestion)
+                .IsRequired()
+                .HasComment("Позиция вопроса");
+
             builder.HasMany(a => a.AnswerCharacteristicValues)
                 .WithOne(ch => ch.Answer)
                 .HasForeignKey(ch => ch.AnswerId)
