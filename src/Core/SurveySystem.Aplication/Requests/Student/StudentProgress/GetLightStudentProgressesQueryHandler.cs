@@ -5,25 +5,25 @@ using SurveySystem.Requests.Students;
 
 namespace SurveySystem.Aplication.Requests.Student.StudentProgress
 {
-    public class GetStudentProgressesQueryHandler : IRequestHandler<GetStudentProgressesQuery, GetLightStudentProgressesResponse>
+    public class GetLightStudentProgressesQueryHandler : IRequestHandler<GetLightStudentProgressesQuery, GetLightStudentProgressesResponse>
     {
         private readonly IUserContext _userContext;
         private readonly IDbContext _dbContext;
 
-        public GetStudentProgressesQueryHandler(IUserContext userContext, IDbContext dbContext)
+        public GetLightStudentProgressesQueryHandler(IUserContext userContext, IDbContext dbContext)
         {
             _userContext = userContext;
             _dbContext = dbContext;
         }
 
-        public async Task<GetLightStudentProgressesResponse> Handle(GetStudentProgressesQuery request, CancellationToken cancellationToken)
+        public async Task<GetLightStudentProgressesResponse> Handle(GetLightStudentProgressesQuery request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
             var userProgresses = await _dbContext.SurveyProgress
                 .Include(sP => sP.Survey)
                 .Where(sP => sP.StudentId == _userContext.CurrentUserId)
-                .OrderBy(s => s.ModifiedOn)
+                .OrderByDescending(s => s.ModifiedOn)
                 .Select(sP => new StudentProgressLightDTO
                 {
                     Id = sP.Id,

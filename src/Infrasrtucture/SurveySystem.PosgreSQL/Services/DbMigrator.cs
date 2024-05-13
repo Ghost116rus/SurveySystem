@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SurveySystem.Aplication.Interfaces;
-using System.Reflection;
 
 namespace SurveySystem.PosgreSQL.Services
 {

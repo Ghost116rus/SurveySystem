@@ -41,37 +41,15 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                 .OrderBy(sA => sA.ModifiedOn)
                 .ToListAsync();
 
-            var allAnswersDict = allAnswers.GroupBy(sA => sA.IsActual)
-                .ToDictionary(x => x.Key, x => x.ToList());
-
-            List<CurrentStudentSurveyTestQuestionDTO> history = getQuestionList(allAnswersDict, false);
-            List<CurrentStudentSurveyTestQuestionDTO> actualAnswers = getQuestionList(allAnswersDict, true);
-            CurrentStudentSurveyTestQuestionDTO? currentQuestion = await _questionService.GetCurrentQuestionDTO(studentProgress);
-
-            return new GetCurrentStudentSurveyResponse()
-            {
-                IsRepetable = studentProgress.Survey!.IsRepetable,
-                IsCompleted = studentProgress.IsCompleted,
-                History = history,
-                ActualAnswers = actualAnswers,
-                CurrentQuestion = currentQuestion
-            };
-        }
-
-        private List<CurrentStudentSurveyTestQuestionDTO> getQuestionList(Dictionary<bool, List<StudentAnswer>> allAnswers, bool v)
-        {
-            if (!allAnswers.ContainsKey(v))
-                return new();
-
-            var collection = allAnswers[false];
-            return collection.GroupBy(x => x.Answer!.Question!)
+            var answers = allAnswers.GroupBy(x => x.Answer!.Question!)
                 .Select(x => new CurrentStudentSurveyTestQuestionDTO()
                 {
                     Id = x.Key.Id,
                     QuestionText = x.Key.Text,
                     MaxCountOfAnswers = x.Key.MaxCountOfAnswers,
                     Type = x.Key.Type,
-                    AnswerTime = x.Key.Answers!.First(a => x.Any(sA => sA.AnswerId == a.Id))?.ModifiedOn.ToString(),
+                    IsActual = x.First().IsActual,
+                    AnswerTime = x.First().ModifiedOn.ToLocalTime().ToString(),
                     Answers = x.Key!.Answers!.Select(a => new CurrentStudentSurveyQuestionAnswerDTO()
                     {
                         Id = a.Id,
@@ -79,6 +57,16 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                         IsSelected = x.Any(sA => sA.AnswerId == a.Id)
                     }).ToList()
                 }).ToList();
+
+            CurrentStudentSurveyTestQuestionDTO? currentQuestion = await _questionService.GetCurrentQuestionDTO(studentProgress);
+
+            return new GetCurrentStudentSurveyResponse()
+            {
+                IsRepetable = studentProgress.Survey!.IsRepetable,
+                IsCompleted = studentProgress.IsCompleted,
+                Answers = answers,
+                CurrentQuestion = currentQuestion
+            };
         }
     }
 }

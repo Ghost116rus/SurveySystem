@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SurveySystem.Aplication.Requests.Student.AnswerInSurvey;
 using SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic;
 using SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey;
 using SurveySystem.Aplication.Requests.Student.StudentProgress;
 using SurveySystem.Requests.Students;
+using SurveySystem.Requests.Students.AnswerInSurvey;
 using SurveySystem.Requests.Students.GetCurrentStudentSurvey;
 using SurveySystem.Requests.Students.StudentCharacteristic;
 
@@ -25,12 +27,19 @@ namespace SurveySystem.Web.Controllers
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
             => await mediator.Send(
-                new GetStudentProgressesQuery(), cancellationToken);
+                new GetLightStudentProgressesQuery(), cancellationToken);
 
         
         [HttpPost]
         public async Task<GetCurrentStudentSurveyResponse> GetCurrentStudentSurvey(
             [FromServices] IMediator mediator, GetCurrentStudentSurveyQuery request,
+            CancellationToken cancellationToken)
+            => await mediator.Send(request, cancellationToken);
+
+        
+        [HttpPost]
+        public async Task<AddNewAnswerForStudentSurveyResponse> AddNewAnswerForStudentSurvey(
+            [FromServices] IMediator mediator, AddNewAnswerForStudentSurveyCommand request,
             CancellationToken cancellationToken)
             => await mediator.Send(request, cancellationToken);
     }

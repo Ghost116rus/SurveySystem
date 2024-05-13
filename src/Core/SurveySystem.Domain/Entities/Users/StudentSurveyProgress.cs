@@ -37,7 +37,7 @@ namespace SurveySystem.Domain.Entities.Users
         public int CurrentPostion
         {
             get => _currentPostion;
-            set
+            private set
             {
                 if (value < 0)
                     throw new BadDataException("Позиция не может быть меньше 0");
@@ -80,11 +80,6 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         public IReadOnlyList<StudentAnswer>? Answers => _studentAnswers;        
         
-        /// <summary>
-        /// Актуальные ответы студента
-        /// </summary>
-        public IReadOnlyList<StudentAnswer>? ActualAnswers => _studentAnswers.Where(x => x.IsActual).ToList();
-
         #endregion
 
         /// <summary>
@@ -92,7 +87,14 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         /// <param name="questionsCount">Количество вопросов в анкете</param>
         public void UpdateIsCompletedStatus(int questionsCount)
-            => IsCompleted = _currentPostion == questionsCount;        
+            => IsCompleted = _currentPostion == questionsCount;  
+        
+
+        public void UpdatePosition(int newPosition, int countOfQuestions)
+        {
+            CurrentPostion = newPosition;
+            IsCompleted = CurrentPostion == countOfQuestions;
+        }
     }
 }
 

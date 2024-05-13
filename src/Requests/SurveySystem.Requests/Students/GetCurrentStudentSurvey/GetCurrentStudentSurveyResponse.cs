@@ -7,8 +7,7 @@ namespace SurveySystem.Requests.Students.GetCurrentStudentSurvey
         public bool IsRepetable { get; set; }
         public bool IsCompleted { get; set; }
 
-        public List<CurrentStudentSurveyTestQuestionDTO> History { get; set; } = new();
-        public List<CurrentStudentSurveyTestQuestionDTO> ActualAnswers { get; set; } = new();
+        public List<CurrentStudentSurveyTestQuestionDTO> Answers { get; set; } = new();
 
         public CurrentStudentSurveyTestQuestionDTO CurrentQuestion { get; set; }  
 
@@ -20,6 +19,7 @@ namespace SurveySystem.Requests.Students.GetCurrentStudentSurvey
         public string QuestionText { get; set; }
         public int MaxCountOfAnswers { get; set; }
         public QuestionType Type { get; set; }
+        public bool IsActual { get; set; }
         public string AnswerTime { get; set; } 
 
         public List<CurrentStudentSurveyQuestionAnswerDTO> Answers { get; set; } = new ();
