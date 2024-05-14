@@ -8,18 +8,18 @@ using SurveySystem.Requests.Students.StudentCharacteristic;
 
 namespace SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic
 {
-    public class GetPositiveStudentCharacteristicQueryHandler : IRequestHandler<GetPositiveStudentCharacteristicQuery, GetPositiveStudentCharacteristicResponse>
+    public class GetOnlyPositiveCharacteristicInStudentProfileQueryHandler : IRequestHandler<GetOnlyPositiveCharacteristicInStudentProfileQuery, GetStudentProfileResponse>
     {
         private readonly IDbContext _dbContext;
         private readonly IUserContext _userContext;
 
-        public GetPositiveStudentCharacteristicQueryHandler(IDbContext dbContext, IUserContext userContext)
+        public GetOnlyPositiveCharacteristicInStudentProfileQueryHandler(IDbContext dbContext, IUserContext userContext)
         {
             _dbContext = dbContext;
             _userContext = userContext;
         }
 
-        public async Task<GetPositiveStudentCharacteristicResponse> Handle(GetPositiveStudentCharacteristicQuery request, CancellationToken cancellationToken)
+        public async Task<GetStudentProfileResponse> Handle(GetOnlyPositiveCharacteristicInStudentProfileQuery request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
@@ -40,9 +40,9 @@ namespace SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCha
             foreach (var x in studentCharacteristic)
                 dict[x.Characteristic!.CharacteristicType]
                     .Add(new StudentCharacteristicDTO() { Description = x.Characteristic!.PositiveDescription, 
-                        CharacteristicMeasure = CharacteristicMeasureMethods.GetValue(x.Value) });
+                        CharacteristicMeasure = Enum.GetName(CharacteristicMeasureMethods.GetValue(x.Value)) });
 
-            return new GetPositiveStudentCharacteristicResponse()
+            return new GetStudentProfileResponse()
             {
                 PersonalCharacteristics = dict[CharacteristicType.Peculiarity],
                 Subjects = dict[CharacteristicType.Subject],

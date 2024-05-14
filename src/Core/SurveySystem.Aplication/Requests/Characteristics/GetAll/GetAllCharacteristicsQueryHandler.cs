@@ -20,7 +20,7 @@ namespace SurveySystem.Aplication.Requests.Characteristics.GetAll
             var characteristics = await _dbContext.Characteristics.Select(x => new CharacteristicDTO()
             {
                 Id = x.Id,
-                PositiveDescription= x.PositiveDescription,
+                PositiveDescription = x.PositiveDescription,
                 NegativeDescription = x.NegativeDescription,
                 CharacteristicType = x.CharacteristicType,
                 CharacteristicTypeDescription = Enum.GetName(x.CharacteristicType)!,

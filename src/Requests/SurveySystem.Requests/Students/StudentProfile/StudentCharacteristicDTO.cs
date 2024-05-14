@@ -10,6 +10,6 @@ namespace SurveySystem.Requests.Students.StudentCharacteristic
     public class StudentCharacteristicDTO
     {
         public string Description { get; set; }
-        public CharacteristicMeasure CharacteristicMeasure { get; set; }
+        public string CharacteristicMeasure { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace SurveySystem.Aplication.Requests.Student.AnswerInSurvey
             await _dbContext.StudentAnswers.AddRangeAsync(studentAnswers);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var currentQuestion = await _questionService.GetCurrentQuestionDTO(surveyProgress);
+            var currentQuestion = await _questionService.GetCurrentQuestionDTOAsync(surveyProgress);
 
             return new AddNewAnswerForStudentSurveyResponse()
             {

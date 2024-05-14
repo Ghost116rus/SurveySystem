@@ -24,11 +24,11 @@ namespace SurveySystem.Domain.Enums
     {
         public static CharacteristicMeasure GetValue(double value)
         {
-            if (value >= 0.75)
+            if (value > 0.75)
                 return CharacteristicMeasure.Pronounced;
             else if (value > 0.5)
                 return CharacteristicMeasure.PositivelyExpressed;
-            else if (value <= 0.25)
+            else if (value < 0.25)
                 return CharacteristicMeasure.Opposite;
             else if (value < 0.5)
                 return CharacteristicMeasure.NegativelyExpressed;

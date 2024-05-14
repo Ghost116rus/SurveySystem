@@ -4,11 +4,6 @@ using SurveySystem.Aplication.Interfaces;
 using SurveySystem.Domain.DomainEvents;
 using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SurveySystem.Aplication.DomainEventsHandlers
 {
@@ -33,20 +28,39 @@ namespace SurveySystem.Aplication.DomainEventsHandlers
                 .FirstOrDefaultAsync(x => x.Id == notification.SurveyProgressId)
                 ?? throw new ExceptionBase("Не был найден прогресс студента в доменном событии");
 
-            if (surveyProgress.Answers!.Count == 0)
+            var actualAnswers = surveyProgress.Answers!.Where(x => x.IsActual).ToList();
+
+            if (actualAnswers.Count == 0)
                 throw new ExceptionBase("невозможно подсчитать результаты опроса при отсутствии ответов");
 
             HashSet<Guid> characteristicsIds = new HashSet<Guid>();
 
-            foreach (var item in surveyProgress.Answers)
+            foreach (var item in actualAnswers)
             {
                 var answerCharacteristics = item.Answer.AnswerCharacteristicValues.Select(x => x.CharacteristicId);
                 foreach (var characteristicId in answerCharacteristics)                
                     characteristicsIds.Add(characteristicId);                
             }
 
-            List<StudentCharacteristic> newStudentCharacteristics = new();
             Dictionary<Guid, StudentCharacteristic> studentCharacteristics = new();
+
+            await UpdateStudentCharacteristicsAsync(surveyProgress, characteristicsIds, studentCharacteristics);
+
+            // пересчет характеристик студента
+            foreach (var studentAnswer in actualAnswers)            
+                foreach (var answerCharacteristicValues in studentAnswer.Answer.AnswerCharacteristicValues)
+                {
+                    var studentCharacteristic = studentCharacteristics[answerCharacteristicValues.CharacteristicId];
+                    studentCharacteristic.Value += answerCharacteristicValues.Value;
+                }
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task UpdateStudentCharacteristicsAsync(StudentSurveyProgress surveyProgress, HashSet<Guid> characteristicsIds,
+            Dictionary<Guid, StudentCharacteristic> studentCharacteristics)
+        {
+            List<StudentCharacteristic> newStudentCharacteristics = new();
 
             foreach (var characteristic in surveyProgress.Student.StudentCharacteristics)
             {
@@ -72,19 +86,8 @@ namespace SurveySystem.Aplication.DomainEventsHandlers
                 }
             }
 
-            if (newStudentCharacteristics.Count > 0)            
+            if (newStudentCharacteristics.Count > 0)
                 await _dbContext.StudentCharacteristic.AddRangeAsync(newStudentCharacteristics);
-
-            // пересчет характеристик студента
-            foreach (var studentAnswer in surveyProgress.Answers.Where(a => a.IsActual))            
-                foreach (var answerCharacteristicValues in studentAnswer.Answer.AnswerCharacteristicValues)
-                {
-                    var studentCharacteristic = studentCharacteristics[answerCharacteristicValues.CharacteristicId];
-                    studentCharacteristic.Value += answerCharacteristicValues.Value;
-                }
-
-            await _dbContext.SaveChangesAsync();
-
         }
     }
 }

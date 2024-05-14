@@ -90,7 +90,12 @@ namespace SurveySystem.Domain.Entities.Users
         public void UpdateIsCompletedStatus(int questionsCount)
             => IsCompleted = _currentPostion == questionsCount;  
         
-
+        /// <summary>
+        /// Метод обновления позиции текущего вопроса.
+        /// В случае если опрос завершился - создает доменное событие <see cref="StudentEndSurveyEvent"/>
+        /// </summary>
+        /// <param name="newPosition">Новая позиция текущего вопроса</param>
+        /// <param name="countOfQuestions">Количество вопросов в опросе. Необходимо для проверки завершенности</param>
         public void UpdatePosition(int newPosition, int countOfQuestions)
         {
             CurrentPostion = newPosition;
@@ -98,6 +103,17 @@ namespace SurveySystem.Domain.Entities.Users
 
             if (IsCompleted)
                 AddDomainEvent(new StudentEndSurveyEvent(Id));
+        }
+
+        /// <summary>
+        /// Метод начала прохождения опроса заново
+        /// создает доменное событие <see cref="StudentRestartSurveyEvent"/>
+        /// </summary>
+        public void Restart()
+        {
+            CurrentPostion = 0;
+            IsCompleted = false;
+            AddDomainEvent(new StudentRestartSurveyEvent(Id));
         }
     }
 }

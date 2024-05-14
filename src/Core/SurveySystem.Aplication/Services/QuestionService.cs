@@ -15,13 +15,17 @@ namespace SurveySystem.Aplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<CurrentStudentSurveyTestQuestionDTO?> GetCurrentQuestionDTO(StudentSurveyProgress studentProgress)
+        public async Task<CurrentStudentSurveyTestQuestionDTO?> GetCurrentQuestionDTOAsync(StudentSurveyProgress studentProgress)
         {
             if (studentProgress.IsCompleted)
                 return null;
 
-            var testQuestion = studentProgress.Survey!
-                .Questions!.First(x => x.Position == studentProgress.CurrentPostion) ??
+            var survey = await _dbContext.Surveys
+                .Include(x => x.Questions)
+                .FirstOrDefaultAsync(x => x.Id == studentProgress.SurveyId)
+                ?? throw new NotFoundException("не был найден заданный опрос");
+
+            var testQuestion = survey.Questions!.First(x => x.Position == studentProgress.CurrentPostion) ??
                     throw new ExceptionBase("Текущая позиция не найдена в таблице позиций");
 
             var currentQuestionId = testQuestion.QuestionId;

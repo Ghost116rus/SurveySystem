@@ -27,7 +27,7 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
 
             var studentProgress = await _dbContext.SurveyProgress
                 .Include(x => x.Survey).ThenInclude(s => s.Questions).FirstOrDefaultAsync(x => x.Id == request.StudentSurveyId)
-                ?? throw new ExceptionBase("Заданный прогресс не найден");
+                ?? throw new NotFoundException("Заданный прогресс не найден");
 
             if (_userContext.CurrentUserId != studentProgress.StudentId &&
                 _userContext.CurrentUserRoleName != Enum.GetName(Role.Administrator))
@@ -38,10 +38,12 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                 .ThenInclude(a => a.Question)
                 .ThenInclude(q => q.Answers)
                 .Where(sA => sA.SurveyProgressId == studentProgress.Id)
-                .OrderBy(sA => sA.ModifiedOn)
+                .OrderBy(sA => sA.CreatedOn)
                 .ToListAsync();
 
-            var answers = allAnswers.GroupBy(x => x.Answer!.Question!)
+            var answers = allAnswers
+                .GroupBy(x => x.CreatedOn)
+                .SelectMany(g => g.GroupBy(x => x.Answer.Question))
                 .Select(x => new CurrentStudentSurveyTestQuestionDTO()
                 {
                     Id = x.Key.Id,
@@ -58,7 +60,7 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                     }).ToList()
                 }).ToList();
 
-            CurrentStudentSurveyTestQuestionDTO? currentQuestion = await _questionService.GetCurrentQuestionDTO(studentProgress);
+            CurrentStudentSurveyTestQuestionDTO? currentQuestion = await _questionService.GetCurrentQuestionDTOAsync(studentProgress);
 
             return new GetCurrentStudentSurveyResponse()
             {

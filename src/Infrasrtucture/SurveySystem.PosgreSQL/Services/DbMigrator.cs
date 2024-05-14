@@ -36,7 +36,7 @@ namespace SurveySystem.PosgreSQL.Services
             _logger.LogInformation($"UpdateDatabase:{operationId}: starting...");
             try
             {
-                await _documentDbContext.Database.EnsureDeletedAsync();
+                //await _documentDbContext.Database.EnsureDeletedAsync();
                 await _documentDbContext.Database.MigrateAsync().ConfigureAwait(false);
                 _logger.LogInformation($"UpdateDatabase:{operationId}: successfully done");
                 await _dbSeeder.SeedAsync(_documentDbContext);

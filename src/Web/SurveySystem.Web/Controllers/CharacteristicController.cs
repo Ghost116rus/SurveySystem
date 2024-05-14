@@ -26,7 +26,8 @@ namespace SurveySystem.Web.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status201Created, type: typeof(Guid))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateCharacteristicCommand request,
+        public async Task<ActionResult<Guid>> Create(
+            [FromBody] CreateCharacteristicCommand request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -36,8 +37,9 @@ namespace SurveySystem.Web.Controllers
 
         [HttpPatch]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-        public async Task<NoContentResult> Patch([FromBody] PatchCharacteristicCommand request,
+        [SwaggerResponse(StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
+        public async Task<NoContentResult> Patch(
+            [FromBody] PatchCharacteristicCommand request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -47,8 +49,9 @@ namespace SurveySystem.Web.Controllers
            
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-        public async Task<NoContentResult> Update([FromBody] PutCharacteristicCommand request,
+        [SwaggerResponse(StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
+        public async Task<NoContentResult> Update(
+            [FromBody] PutCharacteristicCommand request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -59,10 +62,11 @@ namespace SurveySystem.Web.Controllers
 
         [HttpDelete]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
         [Authorize(Roles = "Administrator")]
 
-        public async Task<NoContentResult> Delete([FromBody] DeleteCharacteristicCommand request,
+        public async Task<NoContentResult> Delete(
+            [FromBody] DeleteCharacteristicCommand request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken)
         {
