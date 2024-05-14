@@ -15,8 +15,8 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         public const string AnswerField = nameof(_answer);
 
-        private StudentSurveyProgress? _surveyProgress;
-        private Answer? _answer;
+        private StudentSurveyProgress _surveyProgress;
+        private Answer _answer;
 
         public StudentAnswer(StudentSurveyProgress survey, Answer answer)
         {
@@ -37,7 +37,7 @@ namespace SurveySystem.Domain.Entities.Users
 
         #region NavigfationProperties
 
-        public StudentSurveyProgress? SurveyProgress
+        public StudentSurveyProgress SurveyProgress
         {
             get => _surveyProgress;
             private set
@@ -48,7 +48,7 @@ namespace SurveySystem.Domain.Entities.Users
             }
         }
 
-        public Answer? Answer
+        public Answer Answer
         {
             get => _answer;
             private set

@@ -21,9 +21,9 @@ namespace SurveySystem.Domain.Entities.Users
 
         public StudentCharacteristic(Student student, Characteristic characteristic)
         {
-            Value = 0;
             Student = student;
             Characteristic = characteristic;
+            Value = characteristic.MiddleValue;
         }
 
         protected StudentCharacteristic() { }

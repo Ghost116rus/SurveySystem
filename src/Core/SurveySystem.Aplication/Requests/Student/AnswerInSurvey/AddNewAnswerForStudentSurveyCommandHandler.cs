@@ -30,6 +30,9 @@ namespace SurveySystem.Aplication.Requests.Student.AnswerInSurvey
                 .FirstOrDefaultAsync(x => x.Id == request.StudentSurveyProgressId)
                 ?? throw new NotFoundException("Не был найден данный прогресс студента");
 
+            if (request.AnswersId.Count < 1)
+                throw new BadDataException("Нет ответов студента");
+
             if (surveyProgress.StudentId != _userContext.CurrentUserId)
                 throw new ForbibenException("У вас нет возможности отвечать на этот опрос");
 

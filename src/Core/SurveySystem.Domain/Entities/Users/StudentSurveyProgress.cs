@@ -1,4 +1,5 @@
-﻿using SurveySystem.Domain.Entities.Base;
+﻿using SurveySystem.Domain.DomainEvents;
+using SurveySystem.Domain.Entities.Base;
 using SurveySystem.Domain.Entities.Surveys;
 using SurveySystem.Domain.Exceptions;
 
@@ -22,8 +23,8 @@ namespace SurveySystem.Domain.Entities.Users
         public const string StudentAnswersField = nameof(_studentAnswers);
 
         private int _currentPostion;
-        private Student? _student;
-        private Survey? _survey;
+        private Student _student;
+        private Survey _survey;
         private List<StudentAnswer> _studentAnswers = new();
 
         public StudentSurveyProgress(Student student, Survey survey)
@@ -53,7 +54,7 @@ namespace SurveySystem.Domain.Entities.Users
 
         #region NavigfationProperties
 
-        public Student? Student
+        public Student Student
         {
             get => _student;
             private set
@@ -64,7 +65,7 @@ namespace SurveySystem.Domain.Entities.Users
             }
         }
 
-        public Survey? Survey
+        public Survey Survey
         {
             get => _survey;
             private set
@@ -94,6 +95,9 @@ namespace SurveySystem.Domain.Entities.Users
         {
             CurrentPostion = newPosition;
             IsCompleted = CurrentPostion == countOfQuestions;
+
+            if (IsCompleted)
+                AddDomainEvent(new StudentEndSurveyEvent(Id));
         }
     }
 }
