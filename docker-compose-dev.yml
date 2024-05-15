@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  surveySystem.postgres:
-    container_name: surveySystem_postgres
+  surveys.postgres:
+    container_name: surveys_postgres
     image: postgres
     restart: always
     environment:
@@ -10,12 +10,12 @@ services:
       POSTGRES_PASSWORD: surveySystem
       POSTGRES_DB: "surveySystemDB"
     volumes:
-      - postgres_data:/var/lib/postgresql/data 
+      - postgres_dev_data:/var/lib/postgresqldev/data 
     expose:
-      - "5437"
+      - "5438"
     ports:
-      - "5437:5432"
+      - "5438:5432"
 
 
 volumes:
-  postgres_data:
+  postgres_dev_data:

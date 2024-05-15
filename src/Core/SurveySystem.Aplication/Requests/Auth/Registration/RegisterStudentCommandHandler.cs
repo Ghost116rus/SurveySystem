@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SurveySystem.Aplication.Interfaces;
+using SurveySystem.Domain.Entities.Organization;
 using SurveySystem.Domain.Entities.Users;
 using SurveySystem.Domain.Enums;
 using SurveySystem.Domain.Exceptions;
@@ -31,10 +32,11 @@ namespace SurveySystem.Aplication.Requests.Auth.Register
             if (await _dbContext.Users.AnyAsync(x => x.Login == command.Login))
                 throw new BadDataException($"Пользователь с таким логином ({command.Login}) уже существует!");
 
-            var faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId);
+            Faculty faculty = null;
 
-            if (faculty is null)
-                throw new NotFoundException("Кафедра не найдена");
+            if (command.FacultyId is not null)
+                faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId)
+                    ?? throw new NotFoundException("кафедра не была найдена");
 
             var user = new User(command.FullName, command.Login,
                 _passwordEncryptionService.EncodePassword(command.Password), Role.Student);

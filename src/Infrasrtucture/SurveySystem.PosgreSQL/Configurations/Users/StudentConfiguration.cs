@@ -16,11 +16,9 @@ namespace SurveySystem.PosgreSQL.Configurations.Users
                 .HasComment("Студенты");
 
             builder.Property(p => p.StartDateOfLearning)
-                .IsRequired()
                 .HasComment("Дата начала обучения");
 
             builder.Property(p => p.EducationLevel)
-                .IsRequired()
                 .HasComment("Уровень образования");
 
             builder.Property(p => p.GroupNumber)
@@ -35,7 +33,6 @@ namespace SurveySystem.PosgreSQL.Configurations.Users
             builder.HasOne(s => s.Faculty)
                 .WithMany(f => f.Students)
                 .HasForeignKey(s => s.FacultyId)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(s => s.Progresses)

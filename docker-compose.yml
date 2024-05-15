@@ -2,23 +2,22 @@ version: '3.4'
 
 services:
 
-  surveySystem.api:
-    image: ${DOCKER_REGISTRY-}surveySystem_api
+  survey_system.api:
+    image: ${DOCKER_REGISTRY-}surveysystem_api
     build:
       context: .
       dockerfile: src/Web/SurveySystem.Web/Dockerfile
-    container_name: surveySystem.api
+    container_name: survey_system.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DbConnectionString=User ID=surveySystem;Password=surveySystem;Host=surveySystem_postgres;Port=5438;Database=surveySystemDB;Pooling=true;
-      - S3__ServiceUrl=http://portfolio_minio:9000
+      - ConnectionStrings__DbConnectionString=User ID=surveySystem;Password=surveySystem;Host=survey_system_postgres;Port=5432;Database=surveySystemDB;Pooling=true;
     depends_on:
-      - surveySystem.postgres
+      - survey_system.postgres
     ports:
       - "8001:80"
 
-  surveySystem.postgres:
-    container_name: surveySystem_postgres
+  survey_system.postgres:
+    container_name: survey_system_postgres
     image: postgres
     restart: always
     environment:
@@ -28,9 +27,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data 
     expose:
-      - "5438"
+      - "5437"
     ports:
-      - "5438:5432"
+      - "5437:5432"
 
 
 volumes:

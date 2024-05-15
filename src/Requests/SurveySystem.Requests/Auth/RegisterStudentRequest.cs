@@ -26,9 +26,9 @@ namespace SurveySystem.Requests.Auth
         /// <summary>
         /// Уровень образования см. подробнее в <see cref="Domain.Enums.EducationLevel"/>
         /// </summary>
-        public EducationLevel EducationLevel { get; set; }
+        public EducationLevel? EducationLevel { get; set; }
 
-        public string GroupNumber { get; set; } = default!;
+        public string? GroupNumber { get; set; } = default!;
 
         /// <summary>
         /// Идентификатор кафедры
@@ -38,6 +38,6 @@ namespace SurveySystem.Requests.Auth
         /// <summary>
         /// Дата начала обучения
         /// </summary>
-        public DateTime StartDateOfLearning { get; set; }
+        public DateTime? StartDateOfLearning { get; set; }
     }
 }

@@ -30,6 +30,7 @@ services.AddControllers();
 
 var app = builder.Build();
 {
+    Console.WriteLine(configuration.GetConnectionString("DbConnectionString"));
     using (var scope = app.Services.CreateScope())
     {
         var migrator = scope.ServiceProvider.GetRequiredService<DbMigrator>();

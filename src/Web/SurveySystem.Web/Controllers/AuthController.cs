@@ -52,25 +52,13 @@ namespace SurveySystem.Web.Controllers
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
         public async Task<AuthResponse> PostRegisterAsync(
             [FromServices] IMediator mediator,
-            [FromBody] RegisterStudentRequest request,
+            [FromBody] RegisterStudentCommand request,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            //return await mediator.Send(
-            //    new RegisterStudentCommand
-            //    {
-            //        LastName = request.LastName,
-            //        FirstName = request.FirstName,
-            //        Birthday = request.Birthday,
-            //        Login = request.Login,
-            //        Email = request.Email,
-            //        Password = request.Password,
-            //        Phone = request.Phone,
-            //    },
-            //    cancellationToken);
-
-            return new AuthResponse("Студентов студент студентович", "aw", "aw");
+            return await mediator.Send(request,
+                cancellationToken);
         }
     }
 }

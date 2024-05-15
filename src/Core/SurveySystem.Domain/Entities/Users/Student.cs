@@ -30,7 +30,7 @@ namespace SurveySystem.Domain.Entities.Users
         /// </summary>
         public const string ProgressField = nameof(_surveysProgress);
 
-        private DateTime _startDateOfLearning;
+        private DateTime? _startDateOfLearning;
         private User? _user;
         private Faculty? _faculty;
         private List<StudentCharacteristic> _characteristics = new();
@@ -44,8 +44,8 @@ namespace SurveySystem.Domain.Entities.Users
         /// <param name="groupNumber">номер группы</param>
         /// <param name="faculty">кафедра</param>
         /// <param name="startDateOfLearning">Дата начала обучения</param>
-        public Student(User user, EducationLevel educationLevel, string groupNumber, 
-            Faculty faculty, DateTime startDateOfLearning)
+        public Student(User user, EducationLevel? educationLevel, string? groupNumber, 
+            Faculty? faculty, DateTime? startDateOfLearning)
         {
             Id = user.Id;
             User = user;
@@ -68,14 +68,14 @@ namespace SurveySystem.Domain.Entities.Users
         /// <summary>
         /// Дата начала обучения
         /// </summary>
-        public DateTime StartDateOfLearning 
+        public DateTime? StartDateOfLearning 
         {
             get => _startDateOfLearning;
             private set
             {
                 _startDateOfLearning = value == default
                 ? throw new RequiredFieldNotSpecifiedException("Дата начала обучения")
-                : value.ToUniversalTime();
+                : value?.ToUniversalTime();
             }
                 
         }
