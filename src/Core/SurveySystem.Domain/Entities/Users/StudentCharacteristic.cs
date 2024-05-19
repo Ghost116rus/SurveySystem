@@ -1,4 +1,6 @@
 ﻿using SurveySystem.Domain.Entities.Surveys;
+using SurveySystem.Domain.Exceptions;
+using System.Reflection.PortableExecutable;
 
 namespace SurveySystem.Domain.Entities.Users
 {
@@ -16,8 +18,8 @@ namespace SurveySystem.Domain.Entities.Users
 
 
         private double _value;
-        private Student? _student;
-        private Characteristic? _characteristic;
+        private Student _student;
+        private Characteristic _characteristic;
 
         public StudentCharacteristic(Student student, Characteristic characteristic)
         {
@@ -50,7 +52,7 @@ namespace SurveySystem.Domain.Entities.Users
 
         #region NavigfationProperties
 
-        public Student? Student
+        public Student Student
         {
             get => _student;
             private set
@@ -61,7 +63,7 @@ namespace SurveySystem.Domain.Entities.Users
             }
         }
 
-        public Characteristic? Characteristic
+        public Characteristic Characteristic
         {
             get => _characteristic;
             private set
@@ -73,5 +75,38 @@ namespace SurveySystem.Domain.Entities.Users
         }
 
         #endregion
+
+        /// <summary>
+        /// Приводит <see cref="Value"/> к числу от 0 до 1.
+        /// Если <see cref="Characteristic"/> не был подтянут из бд, вызывается исключение
+        /// </summary>
+        /// <exception cref="ExceptionBase"></exception>
+        private void ConvertValueToDecimalPoint()
+        {
+            if (Characteristic is null)
+                throw new ExceptionBase("Не были подтянуты все необходимые данные");
+
+            var denominator = Characteristic.MaxValue - Characteristic.MinValue;
+            if (denominator == 0)
+                throw new ExceptionBase("Не должно быть так, что максимальное и минимальное значение характеристик одинаковы");
+
+            _value = (_value - Characteristic!.MinValue)
+                / denominator;
+        }
+
+        /// <summary>
+        /// Если <see cref="Characteristic"/> не был подтянут из бд, вызывается исключение
+        /// </summary>
+        /// <returns>В случае, если <see cref="Value"/> больше 0.5 - возвращает true</returns>
+        /// <exception cref="ExceptionBase"></exception>
+        public bool CheckIsPostiveCharacteristicValue()
+        {
+            ConvertValueToDecimalPoint();
+
+            if (_value > 0.5)
+                return true;
+
+            return false;
+        }
     }
 }

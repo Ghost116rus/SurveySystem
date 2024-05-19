@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SurveySystem.Aplication.Requests.Student.AnswerInSurvey;
-using SurveySystem.Aplication.Requests.Student.Characteristics.GetStudentCharacteristic;
 using SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey;
 using SurveySystem.Aplication.Requests.Student.RestartSurvey;
 using SurveySystem.Aplication.Requests.Student.StudentProgress;
@@ -10,7 +9,6 @@ using SurveySystem.Requests.Students;
 using SurveySystem.Requests.Students.AnswerInSurvey;
 using SurveySystem.Requests.Students.GetCurrentStudentSurvey;
 using SurveySystem.Requests.Students.RestartSruventSurvey;
-using SurveySystem.Requests.Students.StudentCharacteristic;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SurveySystem.Web.Controllers
@@ -18,15 +16,6 @@ namespace SurveySystem.Web.Controllers
     [Authorize(Roles = "Student")]
     public class StudentController : BaseController
     {
-        [HttpGet]
-        [SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetStudentProfileResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, type: typeof(ProblemDetails))]
-        public async Task<ActionResult<GetStudentProfileResponse>> GetStudentProfile(
-            [FromServices] IMediator mediator,
-            CancellationToken cancellationToken)
-            => await mediator.Send(
-                new GetOnlyPositiveCharacteristicInStudentProfileQuery(), cancellationToken);
-
         [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetLightStudentProgressesResponse))]
         public async Task<ActionResult<GetLightStudentProgressesResponse>> GetStudentSurveysLight(
