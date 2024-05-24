@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Web", "src\Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveySystem.Services", "src\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj", "{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveySystem.RabbitMQ", "src\Infrasrtucture\RabbitMQ\SurveySystem.RabbitMQ\SurveySystem.RabbitMQ.csproj", "{1FB72BD5-290A-41BB-8521-93F08FD56ABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FB72BD5-290A-41BB-8521-93F08FD56ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB72BD5-290A-41BB-8521-93F08FD56ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB72BD5-290A-41BB-8521-93F08FD56ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB72BD5-290A-41BB-8521-93F08FD56ABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{A2752998-C369-4F11-A991-5BA5838D6DF1} = {F6F05200-1382-47A0-BEBC-0CC93491B7A7}
 		{E42F993B-C1FB-41F8-9FE3-749AD8FFC516} = {3A62DFC4-5547-40BD-AC34-E8418341F5A9}
 		{17C081C5-9EE3-449E-B92A-CE7E9CEE5591} = {777D66FE-3458-4564-9673-53CA8952DD32}
+		{1FB72BD5-290A-41BB-8521-93F08FD56ABF} = {777D66FE-3458-4564-9673-53CA8952DD32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DEB9DA27-ADB7-4807-9CEC-E646D4B63FA8}

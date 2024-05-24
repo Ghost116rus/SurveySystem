@@ -17,6 +17,7 @@ services
     .AddServices()
     .AddCore()
     .AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
+    
     .AddCors(options => options.AddPolicy(
         "AllowOrigin",
         builder => builder.WithOrigins("http://localhost:3000")

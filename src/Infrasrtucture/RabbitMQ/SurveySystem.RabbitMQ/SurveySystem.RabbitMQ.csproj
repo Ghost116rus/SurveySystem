@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\SurveySystem.Aplication\SurveySystem.Aplication.csproj" />
+    <ProjectReference Include="..\..\..\Core\SurveySystem.Domain\SurveySystem.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Requests\SurveySystem.Requests\SurveySystem.Requests.csproj" />
+  </ItemGroup>
+
+</Project>
