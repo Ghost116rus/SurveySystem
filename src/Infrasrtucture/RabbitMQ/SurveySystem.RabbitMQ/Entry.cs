@@ -1,8 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using SurveySystem.Aplication.Interfaces;
+using SurveySystem.Domain.Exceptions;
 using SurveySystem.RabbitMQ;
-using SurveySystem.RabbitMQ.Consumers;
 using System.Reflection;
 
 
@@ -14,12 +13,14 @@ namespace SurveySystem.Services
     public static class Entry
     {
         /// <summary>
-        /// Добавить службы проекта с логикой
+        /// Добавить в проект логику брокера сообщений
         /// </summary>
         /// <param name="services">Коллекция служб</param>
+        /// <param name="options">Настройки брокера сообщений</param>
         /// <returns>Обновленная коллекция служб</returns>
-        public static IServiceCollection AddServices(this IServiceCollection services, BrokerOptions options)
-        {            
+        public static IServiceCollection AddBroker(this IServiceCollection services, BrokerOptions options)
+        {    
+            // получение из сборки всех классов, реализующих интерфейс IConsumer
             var consumers = Assembly.GetExecutingAssembly().GetExportedTypes()
                 .Where(type => type.GetInterfaces()
                     .Any(i => i.IsGenericType &&
@@ -28,33 +29,42 @@ namespace SurveySystem.Services
 
             return services.AddMassTransit(x =>
             {
-                x.AddConsumer<RegisterNewStudentConsumer>();
-                x.AddConsumer<UpdateStudentInfoConsumer>();
+                foreach (var consumer in consumers.Values)                
+                    x.AddConsumer(consumer);
 
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(options.HostName, c =>
                     {
-                        c.Username("root");
-                        c.Password("123");
+                        c.Username(options.UserName);
+                        c.Password(options.Password);
                     });
 
                     foreach (var item in options.Consumers)
                     {
                         config.ReceiveEndpoint(item.Queue, e =>
                         {
-                            //var queueName = item.Queue.
-                        })
+                            var consumerName = item.Queue.Replace("Queue", "") + "Consumer";
+                            if (consumers.ContainsKey(consumerName))
+                            {
+                                var type = consumers[consumerName];
+
+                                e.Durable = item.Durable;
+                                e.PrefetchCount = item.PrefetchCount;
+                                e.Exclusive = item.Exclusive;
+                                e.AutoDelete = item.AutoDelete;
+                                e.ConfigureConsumer(context, type);
+                                consumers.Remove(consumerName);
+                            }
+                            else
+                            {
+                                throw new ExceptionBase($"Для очереди {item.Queue} не были найдены Consumer-ы");
+                            }
+                        });
                     }
 
-                    config.ReceiveEndpoint("RegisterStudentsQueue", e =>
-                    {
-                        e.ConfigureConsumer<RegisterNewStudentConsumer>(context);
-                    });
-                    config.ReceiveEndpoint("UpdateStudentsInfoQueue", e =>
-                    {
-                        e.ConfigureConsumer<UpdateStudentInfoConsumer>(context);
-                    });
+                    if (consumers.Any())
+                        Console.WriteLine($"В системе остались не сконфигрурированные консьюемры {string.Join(" ", consumers.Keys)}");
 
                     config.ClearSerialization();
                     config.UseRawJsonSerializer();

@@ -32,7 +32,7 @@ namespace SurveySystem.Aplication.Requests.Auth.Register
             if (await _dbContext.Users.AnyAsync(x => x.Login == command.Login))
                 throw new BadDataException($"Пользователь с таким логином ({command.Login}) уже существует!");
 
-            Faculty faculty = null;
+            Faculty? faculty = null;
 
             if (command.FacultyId is not null)
                 faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId)

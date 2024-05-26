@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\SurveySystem.Aplication\SurveySystem.Aplication.csproj" />
     <ProjectReference Include="..\..\Core\SurveySystem.Domain\SurveySystem.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrasrtucture\RabbitMQ\SurveySystem.RabbitMQ\SurveySystem.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\Infrasrtucture\SurveySystem.PosgreSQL\SurveySystem.PosgreSQL.csproj" />
     <ProjectReference Include="..\..\Infrasrtucture\SurveySystem.Services\SurveySystem.Services.csproj" />
     <ProjectReference Include="..\..\Requests\SurveySystem.Requests\SurveySystem.Requests.csproj" />

@@ -4,6 +4,7 @@ using SurveySystem.Services;
 using SurveySystem.PosgreSQL;
 using SurveySystem.PosgreSQL.Services;
 using SurveySystem.Web.Middleware;
+using SurveySystem.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,15 +18,13 @@ services
     .AddServices()
     .AddCore()
     .AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
-    
+    .AddBroker(configuration.GetSection("BrokerSettings").Get<BrokerOptions>())
     .AddCors(options => options.AddPolicy(
         "AllowOrigin",
         builder => builder.WithOrigins("http://localhost:3000")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()));
-
-
 
 services.AddControllers();
 
