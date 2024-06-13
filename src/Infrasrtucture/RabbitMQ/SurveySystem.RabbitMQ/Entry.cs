@@ -34,6 +34,7 @@ namespace SurveySystem.Services
 
                 x.UsingRabbitMq((context, config) =>
                 {
+
                     config.Host(options.HostName, c =>
                     {
                         c.Username(options.UserName);
@@ -71,7 +72,6 @@ namespace SurveySystem.Services
                     config.ConfigureEndpoints(context);
                 });
             });
-
         }
     }
 }

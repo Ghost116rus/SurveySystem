@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
-using SurveySystem.Aplication.Requests.Auth.Register;
+using SurveySystem.Aplication.Requests.MessageBroker.UpdateStudentInfio;
 using SurveySystem.Requests.MessageBroker;
 
 namespace SurveySystem.RabbitMQ.Consumers
@@ -17,14 +17,20 @@ namespace SurveySystem.RabbitMQ.Consumers
         public async Task Consume(ConsumeContext<UpdateStudentInfoFromBrokerDTO> context)
         {
             var request = context.Message;
-            var registerStudentCommand = new RegisterStudentCommand()
-            {
-                Login = request.Login,
-                Password = request.Password,
-                FullName = request.FullName
-            };
 
-            await _mediator.Send(registerStudentCommand);
+            var updateCommand = new UpdateStudentInfioCommand();
+
+            await _mediator.Send(updateCommand);
+
+            //var registerStudentCommand = new RegisterNewStudentCommand()
+            //{
+            //    Login = request.Login,
+            //    Password = request.Password,
+            //    FullName = request.FullName
+            //};
+
+            //await _mediator.Send(registerStudentCommand);
+
         }
     }
 }

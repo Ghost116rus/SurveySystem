@@ -252,12 +252,12 @@ namespace SurveySystem.PosgreSQL.Services
 
             testSurvey.UpdateSurveyQuestions(surveyQuestions);
 
-            var secondSurvey = new Survey("Второй опрос", null, false, true, null, null, null, new List<Tag>() { basicTags[0]});
+            var secondSurvey = new Survey("Обучающий опрос", null, false, true, null, null, null, new List<Tag>() { basicTags[0]});
             secondSurvey.UpdateSurveyQuestions(new List<SurveyTestQuestion>()
             {
                 new SurveyTestQuestion(0, secondSurvey, greeting),
                 new SurveyTestQuestion(1, secondSurvey, questions[0]),
-                new SurveyTestQuestion(2, secondSurvey, questions[1]),
+                new SurveyTestQuestion(2, secondSurvey, questions[5]),
                 new SurveyTestQuestion(3, secondSurvey, questions[2]),
                 new SurveyTestQuestion(4, secondSurvey, final),
             });

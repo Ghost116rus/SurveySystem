@@ -104,7 +104,7 @@ namespace SurveySystem.Services.Authentication
         {
             var minutes = tokenType switch
             {
-                TokenTypes.Auth => 25,
+                TokenTypes.Auth => 250,
                 TokenTypes.RefreshToken => 10000,
                 _ => 15,
             };

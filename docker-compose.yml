@@ -11,10 +11,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DbConnectionString=User ID=surveySystem;Password=surveySystem;Host=survey_system_postgres;Port=5432;Database=surveySystemDB;Pooling=true;
+      - BrokerSettings_HostName=survey_system.rabbitmq
     depends_on:
       - survey_system.postgres
+      - survey_system.rabbitmq
     ports:
-      - "8001:80"
+      - "8003:80"
 
   survey_system.postgres:
     container_name: survey_system_postgres
@@ -27,9 +29,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data 
     expose:
-      - "5437"
+      - "8001"
     ports:
-      - "5437:5432"
+      - "8001:5432"
+
+  survey_system.rabbitmq:
+    container_name: portfolio_rabbitmq
+    image: rabbitmq:3.8-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 
 volumes:

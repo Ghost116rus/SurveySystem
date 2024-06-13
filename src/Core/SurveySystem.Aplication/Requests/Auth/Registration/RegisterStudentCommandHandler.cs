@@ -32,11 +32,10 @@ namespace SurveySystem.Aplication.Requests.Auth.Register
             if (await _dbContext.Users.AnyAsync(x => x.Login == command.Login))
                 throw new BadDataException($"Пользователь с таким логином ({command.Login}) уже существует!");
 
-            Faculty? faculty = null;
+            var faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId);
 
-            if (command.FacultyId is not null)
-                faculty = await _dbContext.Faculties.FirstOrDefaultAsync(x => x.Id == command.FacultyId)
-                    ?? throw new NotFoundException("кафедра не была найдена");
+            if (faculty is null)
+                throw new NotFoundException("Кафедра не найдена");
 
             var user = new User(command.FullName, command.Login,
                 _passwordEncryptionService.EncodePassword(command.Password), Role.Student);

@@ -42,7 +42,7 @@ namespace SurveySystem.Aplication.Requests.Student.GetCurrentStudentSurvey
                 .ToListAsync();
 
             var answers = allAnswers
-                .GroupBy(x => x.CreatedOn)
+                .GroupBy(x => x.CreatedOn.Minute)
                 .SelectMany(g => g.GroupBy(x => x.Answer.Question))
                 .Select(x => new CurrentStudentSurveyTestQuestionDTO()
                 {
