@@ -41,6 +41,21 @@ services:
       - "5672:5672"
       - "15672:15672"
 
+  client:
+    image: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "8002:3000"
+
+  proxy:
+    image: nginx:mainline
+    volumes: 
+        - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8000:80"
+
 
 volumes:
   postgres_data:

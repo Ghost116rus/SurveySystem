@@ -20,11 +20,13 @@ services
     .AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
     .AddBroker(configuration.GetSection("BrokerSettings").Get<BrokerOptions>())
     .AddCors(options => options.AddPolicy(
-        "AllowOrigin",
-        builder => builder.WithOrigins("http://localhost:3000")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials()));
+        "AllowAll",
+        policy => {
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+            policy.AllowAnyOrigin();
+            policy.AllowCredentials();
+        }));
 
 services.AddControllers();
 
@@ -45,7 +47,7 @@ var app = builder.Build();
     }
 
     app.UseCustomExceptionHandler();
-    app.UseCors("AllowOrigin");
+    app.UseCors("AllowAll");
 
     app.UseAuthentication();
 
