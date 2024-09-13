@@ -7,7 +7,7 @@ namespace SurveySystem.Services.Authentication
     /// <summary>
     /// Фабрика ClaimsPrincipal для пользователей.
     /// </summary>
-    public class ClaimsIdentityFactory : IClaimsIdentityFactory
+    internal class ClaimsIdentityFactory : IClaimsIdentityFactory
     {
         /// <inheritdoc/>
         public ClaimsIdentity CreateClaimsIdentity(User user)

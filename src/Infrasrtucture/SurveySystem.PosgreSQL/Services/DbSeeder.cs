@@ -16,7 +16,7 @@ namespace SurveySystem.PosgreSQL.Services
     /// <summary>
     /// Сервис добавления данных в БД
     /// </summary>
-    public class DbSeeder : IDbSeeder
+    internal class DbSeeder : IDbSeeder
     {
         private IDbContext _dbContext;
         private readonly IAnswersService _answersService;

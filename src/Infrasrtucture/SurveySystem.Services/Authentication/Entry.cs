@@ -17,7 +17,7 @@ namespace SurveySystem.Services.Authentication
         /// <param name="services">Службы приложения</param>
         /// <returns>Службы приложения с контекстом текущего пользователя</returns>
         public static IServiceCollection AddUserContext(this IServiceCollection services) =>
-        services
+            services
                 .AddScoped<IUserContext, UserContext>();
 
         /// <summary>

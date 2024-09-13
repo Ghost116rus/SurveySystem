@@ -7,7 +7,7 @@ namespace SurveySystem.Services
     /// <summary>
     /// Сервис хэширования паролей.
     /// </summary>
-    public class PasswordEncryptionService : IPasswordEncryptionService
+    internal class PasswordEncryptionService : IPasswordEncryptionService
     {
         private readonly string _passwordHashSalt = "12345abcd";
 

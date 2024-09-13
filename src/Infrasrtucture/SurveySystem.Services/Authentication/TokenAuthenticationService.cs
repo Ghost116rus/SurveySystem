@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SurveySystem.Services.Authentication
 {
-    public class TokenAuthenticationService : ITokenAuthenticationService
+    internal class TokenAuthenticationService : ITokenAuthenticationService
     {
         /// <summary>
         /// Вид авторизации по токену (Bearer)

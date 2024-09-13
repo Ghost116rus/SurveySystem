@@ -5,6 +5,7 @@ using SurveySystem.PosgreSQL;
 using SurveySystem.PosgreSQL.Services;
 using SurveySystem.Web.Middleware;
 using SurveySystem.RabbitMQ;
+using SurveySystem.Aplication.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
